@@ -1,0 +1,36 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+% you may need to change this ;-)
+\usepackage[german]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{float}
+\begin{document}
+\section*{Tabelle:}
+\begin{tabular}{l|lll}
+	Name								&EF		&LF		&Im Kritischen Pfad\\
+	\hline
+    Create Working Packages				&3h		&3h		&Ja\\
+    Create PERT chart					&9h		&9h		&Ja\\
+    Create Gantt chart					&12h	&12h	&Ja\\
+    Plan the databases					&15h	&15h	&Ja\\
+    Build a Task Automation Management	&8h		&15h	&Nein\\
+    Setup the Backend					&26h	&26h	&Ja\\
+    Create Branch View					&44h	&59		&Nein\\
+    Create Staff View					&44h	&67h	&Nein\\
+    Create Order View					&44h	&44h	&Ja\\
+    Create Management View				&62h	&62h	&Ja\\
+    Create Deliverer View				&50h	&67h	&Nein\\
+    Authenticate Customer				&52h	&67h	&Nein\\
+    Create Change Order Story			&48h	&67h	&Nein\\
+    Create PDF Export Story				&67h	&67h	&Ja\\
+    Unit test Moduls 73					&99h	&99h	&Ja\\
+    Connect all Moduls					&107h	&107	&Ja\\
+    Integration testing					&115h	&115h	&Ja\\
+    Deployment							&117h	&117h	&Ja
+\end{tabular}
+\section*{Kritischer Pfad:}
+Create Working Packages $\Rightarrow$ Create PERT chart $\Rightarrow$ Create Gantt chart $\Rightarrow$ Plan the databases $\Rightarrow$ Setup the Backend $\Rightarrow$ Create Order View $\Rightarrow$ Create Management View $\Rightarrow$ Create PDF Export Story $\Rightarrow$ Unit test Moduls 73 $\Rightarrow$ Connect all Moduls $\Rightarrow$ Integration testing $\Rightarrow$ Deployment
+\end{document}

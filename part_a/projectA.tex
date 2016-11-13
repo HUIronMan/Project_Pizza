@@ -135,10 +135,51 @@
 \newpage
 \section*{Aufgabe 2}
         \includegraphics[width=14cm]{./diagramm.png}  
+        
+        \begin{center}
+\begin{tabular}{ |c|c|clc|c|clcl } 
+ \hline
+ Duration & ES & LS & EF & LS & Slack & Activity \\ \hline
+ 3 & 0 & 0 & 3 & 3 & 0 & Working Packages  \\ 
+ 3 & 0 & 12 & 3 & 15 & 12 & Database planning  \\
+ 8 & 0 & 7 & 8 & 15 & 7 & Task Automation Management \\
+ 6 & 3 & 3 & 9 & 9 & 0 & PERT \\ 
+ 3 & 9 & 9 & 12 & 12 & 0 & Gantt \\
+ 11 & 15 & 15 & 24 & 24 & 0 & Backend Setup \\
+ 18 & 24 & 38 & 42 & 56 & 14 & Create Branch View  \\ 
+ 8 & 42 & 56 & 50 & 64 & 14 & Authenticate Customer \\
+ 1 & 50 & 64 & 51 & 65 & 14 & Block Customer \\
+ 18 & 24 & 47 & 42 & 65 & 23 & Create Staff View \\ 
+ 18 & 24 & 24 & 42 & 42 & 0 & Create Order View \\
+ 18 & 42 & 42 & 60 & 60 & 0 & Create Management View \\
+ 6 & 42 & 59 & 48 & 65 & 17 & Create Deliverer View  \\ 
+ 4 & 42 & 61 & 46 & 65 & 19 & Change Order Story \\
+ 5 & 60 & 60 & 65 & 65 & 0 & Export PDF Story \\
+ 32 & 65 & 65 & 97 & 97 & 0 & Unit Test Modules* \\ 
+ 8 & 97 & 97 & 106 & 106 & 0 & Connect all Modules \\
+ 8 & 106 & 106 & 144 & 144 & 0 & Integration Testing \\
+ 2 & 144 & 144 & 146 & 146 & 0 & Deployment (Finish) \\
+ \hline
+\end{tabular}
+\end{center}
+* Unit tests can be divided based on the human ressources. Since we are four in our group, the unit tests can last 8 hours for each person and therefore the finish of all working packages from 'Unit Test Modules' can start and finish 24 hours earlier.
+
+\section*{Kritischer Pfad:}
+Create Working Packages $\Rightarrow$ \\
+Create PERT chart $\Rightarrow$ \\
+Create Gantt chart $\Rightarrow$ \\
+Backend Setup $\Rightarrow$ \\
+Create Order View $\Rightarrow$ \\
+Create Management View $\Rightarrow$ \\
+Create PDF Export Story $\Rightarrow$ \\
+Unit test Moduls $\Rightarrow$ \\
+Connect all Moduls $\Rightarrow$ \\
+Integration testing $\Rightarrow$ \\
+Deployment (Finish)
 
 \newpage
 \section*{Aufgabe 3}
-
+\includegraphics[width=14cm]{./ganttdiagramm.png}  
 
 
 

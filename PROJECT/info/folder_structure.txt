@@ -1,21 +1,26 @@
 #idea for a folder structure of the project
-#adapted according to requirements and ppl working on the individual parts
+#adapted according to requirements and people working on the individual parts
 
 ./README.md
+./LICENSE
 ./PROJECT
 ./PROJECT/info/
 ./PROJECT/info/folder_structure.txt # this file!
+./PROJECT/info/HA/
 ./PROJECT/db/
 ./PROJECT/db/menu.db
 ./PROJECT/db/customers.db
 ./PROJECT/db/stores_n_stock.db
-./PROJECT/python/
+./PROJECT/public/img
+./PROJECT/public/css
 ./PROJECT/python/
 ./PROJECT/python/customer/
 ./PROJECT/python/customer/__init.py__
 ./PROJECT/python/customer/main.py
-./PROJECT/python/employe/
-./PROJECT/python/employe/__init.py__
-./PROJECT/python/employe/main.py
+./PROJECT/python/staff/
+./PROJECT/python/staff/__init.py__
+./PROJECT/python/staff/main.py
 ./PROJECT/python/tests/
-./PROJECT/python/tempaltes/
+./PROJECT/python/templates/
+./PROJECT/stylesheet/style.less
+./PROJECT/stylesheet/_someLessFile.less

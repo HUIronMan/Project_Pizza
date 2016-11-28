@@ -1,0 +1,15 @@
+-- Kunde:
+Pizza bestellen
+Bestellung ändern
+Bestellung stornieren
+
+-- Mitarbeiter:
+Bestellung bestätigen
+Kunden bestätigen
+Liste offener Bestellungen abrufen
+Bestellstatus ändern
+Angebot anpassen
+Vorratsstände aktualisieren
+Vorratsstände einsehen
+Informationen exportieren
+Lieferweg berechnen

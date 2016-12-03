@@ -134,7 +134,35 @@
     \newthread[green!60]{A}{Kunde}
 
    \mess{E}{Neue Bestellung}{B}
+   \begin{call}{B}{Zeige Bestellungen}{C}{}
+   \end{call}
+   \begin{sdblock}[black!20!white]{If call flag}{}
+	\begin{call}{B}{Rufe Kunden an}{A}{Bestätigung}
+	\end{call}
+	\begin{sdblock}[black!20!white]{If not Bestätigung}{}
+	  \begin{call}{B}{Entferne Bestellung}{C}{}
+	  \end{call}
+	\end{sdblock}  
+   \end{sdblock}
+   \begin{call}{B}{Bearbeite vorherige Bestellungen}{B}{Fertig}
+    \begin{call}{A}{Bestellungs Änderung/Löschung}{C}{}
+      \begin{call}{C}{Bestellungs Änderung/Löschung}{D}{}
+      \end{call}      
+    \end{call}
+   \end{call}
+    \begin{call}{B}{Bearbeite Bestellung}{B}{Fertig}
+      \begin{call}{B}{Makiere Bestelleung als in Bearbeitung}{C}{Bestätigung}
+	\begin{call}{C}{Makiere Bestelleung als in Bearbeitung}{D}{Bestätigung}
+	\end{call}      
+      \end{call}
+     \begin{sdblock}[black!20!white]{If Bestätigung}{}
+      \begin{call}{B}{Mache Pizza(s)}{B}{}
+      \end{call}
+     \end{sdblock}
+    \end{call}
+    \mess{B}{Lieferung/Abholung}{A}  
   \end{sequencediagram}
+  \caption{Sequenzdiagramm der Bestellungsbearbeitung}
 \end{figure}
 
 % submit order

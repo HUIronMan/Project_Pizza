@@ -1,0 +1,23 @@
+1. Stellt sicher das Python in mindestens version 3.4 installiert ist
+
+2. Stellt sicher das "pip" installiert ist:
+Ubuntu/Linux Mint:
+sudo apt-get install python3-pip
+
+3. Installiert virtualenv
+sudo pip install virtualenv
+ODER:
+sudo pip3 install virtualenv
+
+4. cd in das Projektverzeichnis
+cd /Pfad/zum/SE/Projekt
+
+5. Aktiviert die virtuelle Umgebung, in die Django installiert wurde (Hab ich gemacht)
+source bin/activate
+
+6. Zum aktivieren des Entwicklungsservers in das PROJECT/pizza Verzeichnis gehen und mittels
+python manage.py runserver
+den Server starten. (Erreichbar unter 127.0.0.1:8000)
+
+7. Deaktiviert die virtuelle Umgebung mit:
+deactivate

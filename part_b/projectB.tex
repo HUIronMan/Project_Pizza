@@ -81,6 +81,181 @@
     \includegraphics[width=7cm]{use_cases.png}
 \end{center}
 
+\subsection*{Textuelle Beschreibungen}
+\subsubsection*{Bestellung aufgeben}
+\begin{itemize}
+    \item \textbf{Kurzbeschreibung:} Kunde gibt eine Bestellung aus vorher ausgewählten Gerichten auf.
+    \item \textbf{Akteure:} Kunde
+    \item \textbf{Vorbedingungen:} Kunde hat noch keine Bestellung aufgegeben.
+    \item \textbf{Beschreibung des Ablaufs:}
+        \begin{enumerate}
+            \item Prüfe ob der Kunde zu einer Bestellung berechtigt ist (Kunde nicht gespeert, Lieferadresse nicht zu weit weg, ...)
+            \item Wenn ja, trage die Bestellung als \textit{Neu} ins System ein und gib eine entsprechende Meldung aus
+            \item Wenn nein, gib eine entsprechende Fehlermeldung aus
+        \end{enumerate}
+    \item \textbf{Nachbedingungen Erfolg:} Die Bestellung wird ins System eingetragen
+    \item \textbf{Nachbedingungen Fehlschlag:} Eine Fehlermeldung wird angezeigt
+\end{itemize}
+%
+\subsubsection*{Bestellung ändern}
+\begin{itemize}
+    \item \textbf{Kurzbeschreibung:} Kunde ändert eine vorher aufgegebene Bestellung
+    \item \textbf{Akteure:} Kunde
+    \item \textbf{Vorbedingungen:} Die Bestellung existiert und befindet sich im Zustand \textit{Neu} oder \textit{Backend}
+    \item \textbf{Beschreibung des Ablaufs:}
+        \begin{enumerate}
+            \item Prüfe ob die Bestellung existiert und sich im Zustand Neu befindet. Falls die Änderung nur aus dem Hinzufügen neuer Pizzen besteht, kann die Bestellung auch im Zustand Backend sein.
+            \item Wenn ja, führe die gewünschten Änderungen durch und gib eine Benachrichtigung aus.
+            \item Wenn nein, gib eine entsprechende Fehlermeldung aus
+        \end{enumerate}
+    \item \textbf{Nachbedingungen Erfolg:} Die Bestellung wurde abgeändert
+    \item \textbf{Nachbedingungen Fehlschlag:} Eine Fehlermeldung wird angezeigt
+\end{itemize}
+%
+\subsubsection*{Bestellung stornieren}
+\begin{itemize}
+    \item \textbf{Kurzbeschreibung:} Kunde storniert eine Bestellung
+    \item \textbf{Akteure:} Kunde
+    \item \textbf{Vorbedingungen:} Die Bestellung existiert und befindet sich im Zustand \textit{Neu}.
+    \item \textbf{Beschreibung des Ablaufs:}
+        \begin{enumerate}
+            \item Prüfe ob die Bestellung existiert und sich im Zustand \textit{Neu} befindet.
+            \item Wenn ja, ändere den Zustand der Bestellung auf \textit{Abgebrochen} und gib eine entsprechende Meldung aus. 
+            \item Wenn nein, gib eine entsprechende Fehlermeldung aus
+        \end{enumerate}
+    \item \textbf{Nachbedingungen Erfolg:} Die Bestellung storniert
+    \item \textbf{Nachbedingungen Fehlschlag:} Eine Fehlermeldung wird angezeigt
+\end{itemize}
+%
+\subsubsection*{Bestellung bestätigen}
+\begin{itemize}
+    \item \textbf{Kurzbeschreibung:} Eine Bestellung wird von einem Mitarbeiter angenommen und ist nun in Arbeit
+    \item \textbf{Akteure:} Mitarbeiter 
+    \item \textbf{Vorbedingungen:} Die Bestellung existiert und befindet sich im Zustand \textit{Neu}.
+    \item \textbf{Beschreibung des Ablaufs:}
+        \begin{enumerate}
+            \item Setze den Zustand der Bestellung auf \textit{Backend} 
+        \end{enumerate}
+    \item \textbf{Nachbedingungen Erfolg:} Zustand der Bestellung ist nun \textit{Backend}
+    \item \textbf{Nachbedingungen Fehlschlag:} Eine Fehlermeldung wird angezeigt
+\end{itemize}
+%
+\subsubsection*{Kunde bestätigen}
+\begin{itemize}
+    \item \textbf{Kurzbeschreibung:} Ein Neukunde wird der Liste bekannter Kunden hinzugefügt
+    \item \textbf{Akteure:} Mitarbeiter
+    \item \textbf{Vorbedingungen:} Der Kunde ist noch nicht in der Liste
+    \item \textbf{Beschreibung des Ablaufs:}
+        \begin{enumerate}
+            \item Füge den Kunden der Datenbank hinzu
+        \end{enumerate}
+    \item \textbf{Nachbedingungen Erfolg:} Der Kunde ist der Datenbank hinzugefügt worden
+    \item \textbf{Nachbedingungen Fehlschlag:} Eine Fehlermeldung wird angezeigt (Dieser Fall \textit{sollte} nie eintreten)
+\end{itemize}
+%
+\subsubsection*{Offene Bestellungen abrufen}
+\begin{itemize}
+    \item \textbf{Kurzbeschreibung:} Eine Liste offener Bestellungen wird ausgegeben
+    \item \textbf{Akteure:} Mitarbeiter
+    \item \textbf{Vorbedingungen:} Keine
+    \item \textbf{Beschreibung des Ablaufs:}
+        \begin{enumerate}
+            \item Rufe alle Bestellungen aus der Datenbank ab, die nicht \textit{Abgeschlossen} oder \textit{Abgebrochen} sind
+            \item Falls keine offenen Bestellungen existieren, zeige eine entsprechende Meldung an und brich ab.
+            \item Ansonsten wende ggf. zusätzliche Filter an
+            \item Formatiere die resultierende Liste und zeige diese an
+        \end{enumerate}
+    \item \textbf{Nachbedingungen Erfolg:} Eine Liste offener Bestellungen wurde ausgegeben
+    \item \textbf{Nachbedingungen Fehlschlag:} Eine Fehlermeldung wird angezeigt 
+\end{itemize}
+%
+\subsubsection*{Bestellstatus ändern}
+\begin{itemize}
+    \item \textbf{Kurzbeschreibung:} Der Status einer Bestellung wird verändert
+    \item \textbf{Akteure:} Mitarbeiter
+    \item \textbf{Vorbedingungen:} Die gewählte Bestellung existiert 
+    \item \textbf{Beschreibung des Ablaufs:}
+        \begin{enumerate}
+            \item Setze den Status der Bestellung
+        \end{enumerate}
+    \item \textbf{Nachbedingungen Erfolg:} Der Status der Bestellung hat sich verändert
+    \item \textbf{Nachbedingungen Fehlschlag:} Eine Fehlermeldung wird angezeigt 
+\end{itemize}
+%
+\subsubsection*{Angebot anpassen}
+\begin{itemize}
+    \item \textbf{Kurzbeschreibung:} Das Angebot wird verändert
+    \item \textbf{Akteure:} Mitarbeiter
+    \item \textbf{Vorbedingungen:} Keine
+    \item \textbf{Beschreibung des Ablaufs:}
+        \begin{enumerate}
+            \item Zeige das momentane Angebot an, je mit der Möglichkeit Elemente zu ändern / zu löschen und neue hinzuzufügen
+            \item Führe die gewünschte Änderung durch
+        \end{enumerate}
+    \item \textbf{Nachbedingungen Erfolg:} Das Angebot wurde verändert
+    \item \textbf{Nachbedingungen Fehlschlag:} Eine Fehlermeldung wird angezeigt 
+\end{itemize}
+%
+\subsubsection*{Vorratsstände aktualisieren}
+\begin{itemize}
+    \item \textbf{Kurzbeschreibung:} Die in einer Filiale vorrätigen Zutaten werden geändert 
+    \item \textbf{Akteure:} Mitarbeiter
+    \item \textbf{Vorbedingungen:} Keine 
+    \item \textbf{Beschreibung des Ablaufs:}
+        \begin{enumerate}
+            \item Der Nutzer wählt eine Filiale aus
+            \item Zeige die vorrätigen Zutaten an (Siehe \textit{Vorratsstände einsehen})
+            \item Biete ein Eingabefeld, mit dem die Menge einer Vorrätigen Zutat geändert werden kann und eines mit dem eine neue Zutat hinzugefügt werden kann.
+            \item Führe die gewünschte Änderung durch
+        \end{enumerate}
+    \item \textbf{Nachbedingungen Erfolg:} Die Vorratsstände einer Filiale werden geändert
+    \item \textbf{Nachbedingungen Fehlschlag:} Eine Fehlermeldung wird angezeigt 
+\end{itemize}
+%
+\subsubsection*{Vorratsstände einsehen}
+\begin{itemize}
+    \item \textbf{Kurzbeschreibung:} Die in einer Filiale vorrätigen Zutaten werden angezeigt 
+    \item \textbf{Akteure:} Mitarbeiter
+    \item \textbf{Vorbedingungen:} Keine 
+    \item \textbf{Beschreibung des Ablaufs:}
+        \begin{enumerate}
+            \item Der Nutzer wählt eine Filiale aus
+            \item Rufe eine Liste der vorrätigen Zutaten aus der Datenbank ab und zeige diese an.    
+        \end{enumerate}
+    \item \textbf{Nachbedingungen Erfolg:} Die Vorratsstände einer Filiale werden angezeigt
+    \item \textbf{Nachbedingungen Fehlschlag:} Eine Fehlermeldung wird angezeigt 
+\end{itemize}
+%
+\subsubsection*{Informationen exportieren}
+\begin{itemize}
+    \item \textbf{Kurzbeschreibung:} Vorher ausgewählte Informationen werden exportiert
+    \item \textbf{Akteure:} Mitarbeiter
+    \item \textbf{Vorbedingungen:} Der Mitarbeiter hat Informationen ausgewählt 
+    \item \textbf{Beschreibung des Ablaufs:}
+        \begin{enumerate}
+            \item Der Nutzer wählt ein gewünschtes Format aus
+            \item Falls die gewählten Informationen in diesem Format exportiert werden können, wird eine
+                entsprechende Datei erzeugt und dem Nutzer zum download angeboten
+            \item Ansonsten wird eine Fehlermeldung angezeigt
+        \end{enumerate}
+    \item \textbf{Nachbedingungen Erfolg:} Die gewünschten Informationen wurden als Datei exportiert
+    \item \textbf{Nachbedingungen Fehlschlag:} Eine Fehlermeldung wird angezeigt 
+\end{itemize}
+%
+\subsubsection*{Lieferweg berechnen}
+\begin{itemize}
+    \item \textbf{Kurzbeschreibung:} Anhand der Filiale und der Lieferadresse wird ein Lieferweg ermittelt
+    \item \textbf{Akteure:} Mitarbeiter
+    \item \textbf{Vorbedingungen:} Der Mitarbeiter hat eine Bestellung ausgewählt 
+    \item \textbf{Beschreibung des Ablaufs:}
+        \begin{enumerate}
+            \item Mittels eines Kartendienstes wird eine Route von der Filiale zur Lieferadresse berechnet
+            \item Konnte eine Route ermittelt werden, wird diese dem Mitarbeiter in die Seite eingebettet angzeigt
+            \item Ansonsten wird eine entsprechende Meldung angezeigt
+        \end{enumerate}
+    \item \textbf{Nachbedingungen Erfolg:} Eine Route zum Kunden wird angezeigt
+    \item \textbf{Nachbedingungen Fehlschlag:} Eine Fehlermeldung wird angezeigt 
+\end{itemize}
 \newpage
 \section*{Aufgabe 2}
 

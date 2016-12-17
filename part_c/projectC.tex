@@ -1,0 +1,84 @@
+\documentclass[a4paper]{report}
+\usepackage{hyperref}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{lineno}
+\usepackage{listings}
+\usepackage{german}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{graphicx}
+%\newcommand{\genasso}[2]{\begin{minipage}{0.7\textwidth}\begin{normalsize}\begin{flushleft}\textbf{{#1}}\end{flushleft}\end{normalsize}\vspace{-1cm}\begin{flushleft}\begin{small}{#2}\end{small}\end{flushleft}\end{minipage}\\\vspace{0.2cm}}
+\pagenumbering{arabic}
+
+\pagestyle{fancy} 
+\newcommand{\frontmatter}{\clearpage \cfoot{\thepage\ }
+\setcounter{page}{1}
+\pagenumbering{Roman}}
+\newcommand{\mainmatter}{\clearpage \lhead{\myAuth} \rhead{\myDate} \cfoot{} \rfoot{\thepage\ of \pageref{LastPage}}
+\setcounter{page}{1}
+\pagenumbering{arabic}}
+\newcommand{\backmatter}{\clearpage \rfoot{\thepage\ }
+\setcounter{page}{1}
+\pagenumbering{alph}}
+
+
+\newcommand{\makemytitlepage}{\begin{titlepage}
+    \begin{center}
+        \vspace*{0.8cm}
+        
+        \Huge
+        \textbf{\myTitle}
+        
+        \vspace{1.5cm}
+        
+        \Large
+        \myAuthor
+
+        \vspace{1.8cm}
+
+        %\begin{large}\textbf{Abstract:} \myAbstract \end{large}
+        \includegraphics[width=6cm]{./IM.jpg}  
+        
+        \vfill
+        
+        \huge
+        \myAsso
+        
+        \vspace{1.3cm}
+        
+        \Large
+
+        %\myDate
+        \today
+        
+    \end{center}
+\end{titlepage}}
+\newcommand{\myAuth}{Team: *Iron Man*\\B. Pohl, K. Trogant, R. Enseleit, D. Hebecker}
+\newcommand{\myAuthor}{Birgit Pohl 574353 (MO. 9-11)\\Kevin Trogant 572451 (Mo. 15-17)\\Ronja Enseleit 572404 (Mo. 15-17)\\Dustin Hebecker 571271 (MO. 9-11)}
+\newcommand{\myAsso}{Group: *Iron Man*}
+\newcommand{\myDate}{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%Change Title !!!!!!!!!!!!!!!!!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\myTitle}{Exercise Sheet C}
+
+\begin{document}
+\frontmatter
+\makemytitlepage
+\mainmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Only modify below here  and change myTitle!!!!!!!!!!!!!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Aufgabe 1}
+\subsection*{a)}
+Hello World 
+\begin{lstlisting}
+Put your code here.
+\end{lstlisting}
+
+
+
+\end{document}

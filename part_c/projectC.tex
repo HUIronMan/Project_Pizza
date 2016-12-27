@@ -72,12 +72,60 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Only modify below here  and change myTitle!!!!!!!!!!!!!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Aufgabe 1}
-\subsection*{a)}
-Hello World 
-\begin{lstlisting}
-Put your code here.
-\end{lstlisting}
+\section*{Aufgabe 1 (Akzeptanztest)}
+
+Im folgenden findet sich eine Liste mit Akzeptanstests die vom Kunden durchgeführt werden sollten.Da die Natur möglicher Falscheingaben (z.B. sind Numerische Rezeptnamen erlaubt etc.) nicht bekannt ist, wird angenommen, dass solche Falscheingaben bereits im Funktionstest getestet wurden und abgesehen vom Format der Fehlerausgabe dies enicht Teil des Akzeptanstests ist. Werden alle Tests ind er gegebenen Reihenfolge ausgeführt kann auf vorherigen Eingaben aufgebaut werden.
+
+\subsection*{Teste als Mitarbeiter:}
+\begin{itemize}
+ \item Erstelle drei verschiedene Angebote mit Produkt Namen, Rezept für die drei Größen und entsprechendem Preis.
+ \item Ändere eines der zuvor erstellten Angebote bezüglich Namen, Rezept und Preis.
+ \item Lösche eines der zuvor erstellten Angebote.
+\end{itemize}
+
+\subsection*{Teste als Kunde:}
+\begin{itemize}
+ \item Wähle acht verschiedene Pizzen: Eine Pizza je Größe mit festem Rezept, für Large und X-Large bestelle je eine Pizza mit gemischter Belegung und wähle zusätzliche Toppings für je eine Pizza ohne andere Beläge, einem festen Rezept und gemsichter Belegung.  
+ \item Gib eine Bestellung je zur Abholung und zur Lieferung auf und das je einmal als Neukunde, einmal als Bestandskunde und einmal als gesperrter Kunde.
+ \item Ändere jede Bestellung einmal vor der Makierung ``Backend'' und hinzufügen weiterer Pizzen nach der Makierung ``backend''.
+\end{itemize}
+
+\subsection*{Teste als Mitarbeiter:}
+\begin{itemize}
+ \item Teste das Akzeptieren/Hinzufügen eines Neukunden als auch das Ablehnen eines Neukunden. 
+\end{itemize}
+
+\subsection*{Teste als Koch:}
+\begin{itemize}
+ \item Das Aufrufen der Bestelliste mit und ohne verfügbaren Filtern
+ \item Ändere je eine Bestellung auf fertig gebacken und abgebrochen.\footnote{Eine fehlende Vorratsaktualisierung bei eines Abbruchs nach Backende ist hier bedenklich, die Recourcen wurden ja verbraucht.}
+\end{itemize}
+
+
+\subsection*{Teste als Mitarbeiter:}
+\begin{itemize}
+ \item Liefere eine Bestellung aus sowohl mit Ausdruck einer Karte als auch ohne.
+ \item Einsicht der Fillialvorräte
+ \item Aktualisierung der Fillialvorräte
+ \item Export der Fillialvorräte
+\end{itemize}
+
+
+
+
+\newpage
+\section*{Aufgabe 2}
+
+
+
+
+
+
+%\subsection*{a)}
+%Hello World 
+%\begin{lstlisting}
+%Put your code here.
+%\end{lstlisting}
 
 
 

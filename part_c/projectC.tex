@@ -8,6 +8,12 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb}
 \usepackage{graphicx}
+
+\usepackage{pdflscape}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata,positioning,shapes,shadows}
+\usepackage{tikz-uml}
+
 %\newcommand{\genasso}[2]{\begin{minipage}{0.7\textwidth}\begin{normalsize}\begin{flushleft}\textbf{{#1}}\end{flushleft}\end{normalsize}\vspace{-1cm}\begin{flushleft}\begin{small}{#2}\end{small}\end{flushleft}\end{minipage}\\\vspace{0.2cm}}
 \pagenumbering{arabic}
 
@@ -114,10 +120,196 @@ Im folgenden findet sich eine Liste mit Akzeptanstests die vom Kunden durchgefü
 
 
 \newpage
+\begin{landscape}
+\tikzstyle{abstract}=[rectangle, draw=black, anchor=north, text=black, text width=4cm]
+\tikzstyle{comment}=[rectangle, draw=black, rounded corners, fill=green, drop shadow,
+        text centered, anchor=north, text=white, text width=3cm]
+\tikzstyle{myarrow}=[->, >=open triangle 90, thick]
+\tikzstyle{line}=[-, thick]
 \section*{Aufgabe 2}
-
-
-
+\begin{tikzpicture}[auto]
+	\node (KundeView) [abstract, rectangle split, rectangle split parts=1, text width=2cm]
+        {
+            \textbf{\small{KundeView}}
+    	};
+    	\node (LieferwegView) [abstract, rectangle split, rectangle split parts=1, below =0.5cm of KundeView, text width=3cm]
+        {
+            \textbf{\small{LieferwegView}}
+    	};
+	\node (Detailview) [abstract, rectangle split, rectangle split parts=1, text width=2cm, left = 0.5cm of LieferwegView]
+        {
+            \textbf{\small{DetailView}}
+    	};
+   \node (Listview) [abstract, rectangle split, rectangle split parts=1, below =6cm of Detailview, text width=2cm]
+        {
+            \textbf{\small{ListView}}
+    	};
+   	%Views    
+   	\node (BestellungView) [abstract, rectangle split, rectangle split parts=1, below =3.5cm of LieferwegView, text width=3cm]
+        {
+            \textbf{\small{BestellungView}}
+    	};
+    \node (ShopView) [abstract, rectangle split, rectangle split parts=1, below =0.5cm of BestellungView, text width=3cm]
+        {
+            \textbf{\small{ShopView}}
+    	};
+    \node (BestellungenView) [abstract, rectangle split, rectangle split parts=1, right =0.5cm of Listview, text width=3cm]
+        {
+            \textbf{\small{BestellungenView}}
+    	};
+   	\node (MenueView) [abstract, rectangle split, rectangle split parts=1, below =1cm of BestellungenView, text width=3cm]
+        {
+            \textbf{\small{MenüView}}
+    	};	
+   	\node (BestandView) [abstract, rectangle split, rectangle split parts=1, below =4cm of BestellungenView, text width=3cm]
+        {
+            \textbf{\small{BestandView}}
+    	};	
+	\node (Kartendienst) [abstract, rectangle split, rectangle split parts=3, right=of LieferwegView]
+        {
+            \textbf{\small{Kartendienst}}\\
+            \tiny{$\lbrace$abstract$\rbrace$}
+            \nodepart{second}
+            \nodepart{third}
+            \tiny{}
+            LieferwegFinden(Adresse:String, \\
+            $\;\;$ Filiale:String): Lieferweg\\
+            $ $ LieferwegAnzeigen(Weg:Lieferweg)\\
+        };
+	\node (AuxNode01) [text width=4cm, below=of Kartendienst] {};
+	\node (Lieferweg) [abstract, rectangle split, rectangle split parts=3, below =0.5cm of Kartendienst]
+        {
+            \textbf{\small{Lieferweg}}
+            \nodepart{second}
+            \tiny{}
+            Weg\\
+            \nodepart{third}
+            \tiny{}
+            ExportPDF()\\
+        };
+    \node (Bestellung) [abstract, rectangle split, rectangle split parts=3, right=of Lieferweg]
+        {
+            \textbf{\small{Bestellung}}
+            \nodepart{second}
+            \tiny{}
+            Veranlasser: Kunde\\
+            $ $ Datum: Date\\
+            $ $ Uhrzeit: Time\\
+            $ $ Zustand: String\\
+            $ $ Adresse/Filiale: String\\
+            $ $ Pizzaliste: Pizza[1...*]\\
+            \nodepart{third}
+            \tiny{}
+            Stornieren(): Boolean\\
+            $ $ PizzaHinzufügen(Neu:Pizza):\\
+            $\;\;$ Boolean\\
+            $ $ PizzaEntfernen(Alt:Pizza): Boolean\\
+            $ $ PizzaÄndern(Neu:Pizza, Alt:Pizza):\\
+            $\;\;$ Boolean\\
+            $ $ OrtÄndern(Ort:String): Boolean\\
+            $ $ RechnungPDFExport()\\
+        };
+    \node (Kunde) [abstract, rectangle split, rectangle split parts=3, right =12cm of KundeView, text width=3cm]
+        {
+            \textbf{\small{Kunde}}
+            \nodepart{second}
+            \tiny{}
+            Telefonnummer: String\\
+            $ $ -Gesperrt: Boolean\\
+            $ $ -TimerGesperrt: Date\\
+            \nodepart{third}
+            \tiny{}
+            Sperren(Datum:Date)\\
+            $ $ GetGesperrt()\\
+        };
+    \node (Pizza) [abstract, rectangle split, rectangle split parts=3, right =1cm of BestellungenView]
+        {
+            \textbf{\small{Pizza}}
+            \nodepart{second}
+            \tiny{}
+            Größe: String\\
+            $ $ Art: Rezept[1...2]\\
+            $ $ Preis: Float\\
+            $ $ Toppings: Zutat[0...5]\\
+            \nodepart{third}
+            \tiny{}
+        };
+   \node (Rezept) [abstract, rectangle split, rectangle split parts=3, below =1cm of Pizza, text width=3cm]
+        {
+            \textbf{\small{Rezept}}
+            \nodepart{second}
+            \tiny{}
+            Größe: String\\
+            $ $ Preis: Float\\
+            $ $ Zutaten: ZutatMitMenge[1...*]\\
+            \nodepart{third}
+            \tiny{}
+        };
+   \node (Zutat) [abstract, rectangle split, rectangle split parts=3, right =1cm of Rezept, text width=3cm]
+        {
+            \textbf{\small{Zutat}}
+            \nodepart{second}
+            \tiny{}
+            Name: String\\
+            \nodepart{third}
+            \tiny{}
+        };
+   \node (Filiale) [abstract, rectangle split, rectangle split parts=3, below =1cm of Rezept, text width=4cm]
+        {
+            \textbf{\small{Filiale}}
+            \nodepart{second}
+            \tiny{}
+            Bestand: ZutatMitMenge[0...*]\\
+            \nodepart{third}
+            \tiny{}
+            BestandExportPDF()\\
+        };
+     \node (ZutatMenge) [abstract, rectangle split, rectangle split parts=3, right =5cm of Filiale, text width=3cm]
+        {
+            \textbf{\small{ZutatMitMenge}}
+            \nodepart{second}
+            \tiny{}
+            Lebensmittel: Zutat\\
+            Menge: Int\\
+            \nodepart{third}
+            \tiny{}
+        };
+   \node (Model) [abstract, rectangle split, rectangle split parts=1, right =1cm of Pizza, text width=4cm]
+        {
+            \textbf{\small{django.db.models.Model}}
+        };
+    \path[-,line width=1pt] 	(Kartendienst) edge [bend left=0] node {$ $} (Lieferweg);
+    \path[-,line width=1pt] 	(Kunde) edge [bend left=0] node {\small{* \tiny{Veranlasser} 1}} (Bestellung);
+    \path[>=open diamond ,<-,line width=1pt] 	(Bestellung) edge [bend right=0] node {\tiny{* Pizzaliste 1}} (Pizza);
+    \path[>=open diamond ,<-,line width=1pt] 	(ZutatMenge) edge [bend left=0] node {\tiny{1 Lebensmittel *}} (Zutat);
+    \path[-,line width=1pt] 	(Pizza) edge [bend left=0] node {\small{* \tiny{Art} 2}} (Rezept);
+    \path[-,line width=1pt] 	(Pizza) edge [bend left=0] node {\small{* \tiny{Toppings} 0...5}} (Zutat);
+    \path[-,line width=1pt] 	(Rezept) edge [bend left=0] node {\small{* \tiny{Zutaten} 1...*}} (ZutatMenge);
+    \path[-,line width=1pt] 	(Filiale) edge [bend left=0] node {\small{* \tiny{Bestand} 0...*}} (ZutatMenge);
+    %Erben von Model
+    \path[>=open triangle 60 ,->,line width=1pt] 	(Kunde) edge [bend left=0] node {} (Model);
+    \path[>=open triangle 60 ,->,line width=1pt] 	(Pizza) edge [bend left=0] node {} (Model);
+    \path[>=open triangle 60 ,->,line width=1pt] 	(Zutat) edge [bend left=0] node {} (Model);
+    \path[>=open triangle 60 ,->,line width=1pt] 	(ZutatMenge) edge [bend left=0] node {} (Model);
+    \path[>=open triangle 60 ,->,line width=1pt] 	(Bestellung) edge [bend left=0] node {} (Model);
+    \path[>=open triangle 60 ,->,line width=1pt] 	(Rezept) edge [bend left=0] node {} (Model);
+    %Anderes
+    \path[>=open triangle 60 ,->,line width=1pt] 	(LieferwegView) edge [bend left=0] node {} (Detailview);
+    \path[-,line width=1pt] 	(LieferwegView) edge [bend left=0] node {} (Lieferweg);
+    \path[-,line width=1pt] 	(LieferwegView) edge [bend left=0] node {} (Kartendienst);
+    \path[>=open triangle 60 ,->,line width=1pt] 	(BestandView) edge [bend left=0] node {} (Listview);
+    \path[-,line width=1pt] 	(BestandView) edge [bend left=0] node {} (Filiale);
+    \path[>=open triangle 60 ,->,line width=1pt] 	(BestellungenView) edge [bend left=0] node {} (Listview);
+    \path[-,line width=1pt] 	(BestellungenView) edge [bend left=0] node {} (Bestellung);
+    \path[>=open triangle 60 ,->,line width=1pt] 	(BestellungView) edge [bend left=0] node {} (Detailview);
+    \path[-,line width=1pt] 	(BestellungView) edge [bend left=0] node {} (Bestellung);
+    \path[>=open triangle 60 ,->,line width=1pt] 	(MenueView) edge [bend left=0] node {} (Listview);
+    \path[-,line width=1pt] 	(MenueView) edge [bend left=0] node {} (Rezept);
+    \path[>=open triangle 60 ,->,line width=1pt] 	(ShopView) edge [bend left=0] node {} (Detailview);
+    \path[-,line width=1pt] 	(ShopView) edge [bend left=0] node {} (Bestellung);
+    %edge [bend left=20] node {$a$}
+\end{tikzpicture}
+\end{landscape}
 
 
 

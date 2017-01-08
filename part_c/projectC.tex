@@ -119,7 +119,6 @@ Im folgenden findet sich eine Liste mit Akzeptanstests die vom Kunden durchgefü
 
 
 
-\newpage
 \begin{landscape}
 \tikzstyle{abstract}=[rectangle, draw=black, anchor=north, text=black, text width=4cm]
 \tikzstyle{comment}=[rectangle, draw=black, rounded corners, fill=green, drop shadow,
@@ -128,26 +127,26 @@ Im folgenden findet sich eine Liste mit Akzeptanstests die vom Kunden durchgefü
 \tikzstyle{line}=[-, thick]
 \section*{Aufgabe 2}
 \begin{tikzpicture}[auto]
-	\node (KundeView) [abstract, rectangle split, rectangle split parts=1, text width=2cm]
+	\node (KundeView) [abstract, rectangle split, rectangle split parts=1, text width=3cm]
         {
             \textbf{\small{KundeView}}
     	};
-    	\node (LieferwegView) [abstract, rectangle split, rectangle split parts=1, below =0.5cm of KundeView, text width=3cm]
+    	\node (LieferwegView) [abstract, rectangle split, rectangle split parts=1, below =2cm of KundeView, text width=3cm]
         {
             \textbf{\small{LieferwegView}}
     	};
-	\node (Detailview) [abstract, rectangle split, rectangle split parts=1, text width=2cm, left = 0.5cm of LieferwegView]
+   	%Views    
+   	\node (BestellungView) [abstract, rectangle split, rectangle split parts=1, below =3cm of LieferwegView, text width=3cm]
+        {
+            \textbf{\small{BestellungView}}
+    	};
+    \node (Detailview) [abstract, rectangle split, rectangle split parts=1, text width=2cm, left = 0.5cm of BestellungView]
         {
             \textbf{\small{DetailView}}
     	};
-   \node (Listview) [abstract, rectangle split, rectangle split parts=1, below =6cm of Detailview, text width=2cm]
+   \node (Listview) [abstract, rectangle split, rectangle split parts=1, below =2cm of Detailview, text width=2cm]
         {
             \textbf{\small{ListView}}
-    	};
-   	%Views    
-   	\node (BestellungView) [abstract, rectangle split, rectangle split parts=1, below =3.5cm of LieferwegView, text width=3cm]
-        {
-            \textbf{\small{BestellungView}}
     	};
     \node (ShopView) [abstract, rectangle split, rectangle split parts=1, below =0.5cm of BestellungView, text width=3cm]
         {
@@ -164,8 +163,11 @@ Im folgenden findet sich eine Liste mit Akzeptanstests die vom Kunden durchgefü
    	\node (BestandView) [abstract, rectangle split, rectangle split parts=1, below =4cm of BestellungenView, text width=3cm]
         {
             \textbf{\small{BestandView}}
-    	};	
-	\node (Kartendienst) [abstract, rectangle split, rectangle split parts=3, right=of LieferwegView]
+    	};
+    \node (pos1) [below=of KundeView]
+        {
+        };	
+	\node (Kartendienst) [abstract, rectangle split, rectangle split parts=3, right =2.5cm of pos1]
         {
             \textbf{\small{Kartendienst}}\\
             \tiny{$\lbrace$abstract$\rbrace$}
@@ -274,18 +276,18 @@ Im folgenden findet sich eine Liste mit Akzeptanstests die vom Kunden durchgefü
             \nodepart{third}
             \tiny{}
         };
-   \node (Model) [abstract, rectangle split, rectangle split parts=1, right =1cm of Pizza, text width=4cm]
+   \node (Model) [abstract, rectangle split, rectangle split parts=1, right =3cm of Pizza, text width=4cm]
         {
             \textbf{\small{django.db.models.Model}}
         };
     \path[-,line width=1pt] 	(Kartendienst) edge [bend left=0] node {$ $} (Lieferweg);
-    \path[-,line width=1pt] 	(Kunde) edge [bend left=0] node {\small{* \tiny{Veranlasser} 1}} (Bestellung);
-    \path[>=open diamond ,<-,line width=1pt] 	(Bestellung) edge [bend right=0] node {\tiny{* Pizzaliste 1}} (Pizza);
+    \path[-,line width=1pt] 	(Kunde) edge [bend left=0] node {\tiny{* Veranlasser 1}} (Bestellung);
+    \path[>=open diamond ,<-,line width=1pt] 	(Bestellung) edge [bend right=0] node {\tiny{1...* Pizzaliste 1}} (Pizza);
     \path[>=open diamond ,<-,line width=1pt] 	(ZutatMenge) edge [bend left=0] node {\tiny{1 Lebensmittel *}} (Zutat);
-    \path[-,line width=1pt] 	(Pizza) edge [bend left=0] node {\small{* \tiny{Art} 2}} (Rezept);
-    \path[-,line width=1pt] 	(Pizza) edge [bend left=0] node {\small{* \tiny{Toppings} 0...5}} (Zutat);
-    \path[-,line width=1pt] 	(Rezept) edge [bend left=0] node {\small{* \tiny{Zutaten} 1...*}} (ZutatMenge);
-    \path[-,line width=1pt] 	(Filiale) edge [bend left=0] node {\small{* \tiny{Bestand} 0...*}} (ZutatMenge);
+    \path[-,line width=1pt] 	(Pizza) edge [bend left=0] node {\small{\tiny{* Art} 1...2}} (Rezept);
+    \path[-,line width=1pt] 	(Pizza) edge [bend left=0] node {\small{\tiny{* Toppings} 0...5}} (Zutat);
+    \path[-,line width=1pt] 	(Rezept) edge [bend left=0] node {\tiny{1 Zutaten 1...*}} (ZutatMenge);
+    \path[-,line width=1pt] 	(Filiale) edge [bend left=0] node {\tiny{1 Bestand 0...*}} (ZutatMenge);
     %Erben von Model
     \path[>=open triangle 60 ,->,line width=1pt] 	(Kunde) edge [bend left=0] node {} (Model);
     \path[>=open triangle 60 ,->,line width=1pt] 	(Pizza) edge [bend left=0] node {} (Model);
@@ -307,10 +309,12 @@ Im folgenden findet sich eine Liste mit Akzeptanstests die vom Kunden durchgefü
     \path[-,line width=1pt] 	(MenueView) edge [bend left=0] node {} (Rezept);
     \path[>=open triangle 60 ,->,line width=1pt] 	(ShopView) edge [bend left=0] node {} (Detailview);
     \path[-,line width=1pt] 	(ShopView) edge [bend left=0] node {} (Bestellung);
+    \path[>=open triangle 60 ,->,line width=1pt] 	(KundeView) edge [bend right=20] node {} (Detailview);
+    \path[-,line width=1pt] 	(KundeView) edge [bend left=0] node {} (Kunde);
     %edge [bend left=20] node {$a$}
 \end{tikzpicture}
 \end{landscape}
-
+Die Klassen DetailView, ListView und django.db.models.Model stammen aus einem Python-Framework für die Entwicklung von Web-Anwendungen mit dem Namen Django und werden nicht von uns implementiert.
 
 
 %\subsection*{a)}

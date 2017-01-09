@@ -21,8 +21,12 @@ class Address(models.Model):
 
 class Pizza(models.Model):
     """A pizza"""
+    name = models.CharField(max_length=80)
+    price = models.IntegerField(default=0) # In cents
     pass
 
 class Topping(models.Model):
     """A Topping"""
+    name = models.CharField(max_length=80)
+    price = models.IntegerField(default=0) # In cents
     pass

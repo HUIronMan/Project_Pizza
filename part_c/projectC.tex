@@ -78,42 +78,55 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Only modify below here  and change myTitle!!!!!!!!!!!!!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Aufgabe 1 (Akzeptanztest)}
+\section*{Aufgabe 1 ($\approx$Systemtest)}
 
-Im folgenden findet sich eine Liste mit Akzeptanstests die vom Kunden durchgeführt werden sollten.Da die Natur möglicher Falscheingaben (z.B. sind Numerische Rezeptnamen erlaubt etc.) nicht bekannt ist, wird angenommen, dass solche Falscheingaben bereits im Funktionstest getestet wurden und abgesehen vom Format der Fehlerausgabe dies enicht Teil des Akzeptanstests ist. Werden alle Tests ind er gegebenen Reihenfolge ausgeführt kann auf vorherigen Eingaben aufgebaut werden.
+Im folgenden findet sich eine Liste mit Akzeptanstests die vom Kunden durchgeführt werden sollten. Da die Natur möglicher Falscheingaben (z.B. sind Numerische Rezeptnamen erlaubt etc.) nicht bekannt ist, wird angenommen, dass solche Falscheingaben bereits im Funktionstest getestet wurden und abgesehen vom Format der Fehlerausgabe diese nicht Teil des Akzeptanstests ist. Werden alle Tests in der gegebenen Reihenfolge ausgeführt kann auf vorherigen Eingaben aufgebaut werden.
 
 \subsection*{Teste als Mitarbeiter:}
 \begin{itemize}
  \item Erstelle drei verschiedene Angebote mit Produkt Namen, Rezept für die drei Größen und entsprechendem Preis.
+ \item[$\Rightarrow$] Die Angebote erscheinen wie eingegeben im Kunden-Menü.
  \item Ändere eines der zuvor erstellten Angebote bezüglich Namen, Rezept und Preis.
+ \item[$\Rightarrow$] Das Angebot erscheinen wie geändert im Kunden-Menü. 
  \item Lösche eines der zuvor erstellten Angebote.
+ \item[$\Rightarrow$] Das Angebot verschwindet aus dem Kunden-Menü.
 \end{itemize}
 
 \subsection*{Teste als Kunde:}
 \begin{itemize}
  \item Wähle acht verschiedene Pizzen: Eine Pizza je Größe mit festem Rezept, für Large und X-Large bestelle je eine Pizza mit gemischter Belegung und wähle zusätzliche Toppings für je eine Pizza ohne andere Beläge, einem festen Rezept und gemsichter Belegung.  
+ \item[$\Rightarrow$] Die Pizzen erscheinen wie ausgewählt in der Bestellübersicht.
  \item Gib eine Bestellung je zur Abholung und zur Lieferung auf und das je einmal als Neukunde, einmal als Bestandskunde und einmal als gesperrter Kunde.
+ \item[$\Rightarrow$] Beim bestandskunden erscheinen die Pizzen vor der Haustüre und im Geschäft, nach einem positiven Bestätigungsanruf passiert das gleiche beim Neukunden. Beim gesperrten Kunden passiert nichts oder eine Sperrmeldung erscheint auf der Website.
  \item Ändere jede Bestellung einmal vor der Makierung ``Backend'' und hinzufügen weiterer Pizzen nach der Makierung ``Backend''.
+ \item[$\Rightarrow$] Die geänderte Bestellungen erscheinen in der Bestellübersicht und später auf dem Teller.
 \end{itemize}
 
 \subsection*{Teste als Mitarbeiter:}
 \begin{itemize}
  \item Teste das Akzeptieren/Hinzufügen eines Neukunden als auch das Ablehnen eines Neukunden. 
+ \item[$\Rightarrow$] Der Mitarbeiter kann die Daten korrekt im System hinterlegen.
 \end{itemize}
 
 \subsection*{Teste als Koch:}
 \begin{itemize}
- \item Das Aufrufen der Bestelliste mit und ohne verfügbaren Filtern
+ \item Das Aufrufen der Bestelliste mit und ohne verfügbaren Filtern.
+ \item[$\Rightarrow$] Eine komplette Bestellübersicht über alle Bestellungen erscheint und die Filter können erfolgreich angewendet werden.
  \item Ändere je eine Bestellung auf fertig gebacken und abgebrochen.\footnote{Eine fehlende Vorratsaktualisierung bei einem Abbruch nach Backende ist hier bedenklich, die Recourcen wurden ja verbraucht.}
+ \item[$\Rightarrow$] Die Eisntellungen werden erfolgreich ins System übernommen.
 \end{itemize}
 
 
 \subsection*{Teste als Mitarbeiter:}
 \begin{itemize}
  \item Liefere eine Bestellung aus sowohl mit Ausdruck einer Karte als auch ohne.
- \item Einsicht der Fillialvorräte
- \item Aktualisierung der Fillialvorräte
- \item Export der Fillialvorräte
+ \item[$\Rightarrow$] Das System druckt die Rechnung einmal mit und einmal ohne aus und übernimmt den Status der Lieferung. 
+ \item Einsicht der Fillialvorräte.
+ \item[$\Rightarrow$] Eine Liste aller Fillialvorräte erscheint.
+ \item Aktualisierung der Fillialvorräte.
+ \item[$\Rightarrow$] Die Änderungen werden erfolgreich ins System übernommen.
+ \item Export der Fillialvorräte.
+ \item[$\Rightarrow$] Ein PDF-Dokument mit allen Fillialvorräten wird erstellt.
 \end{itemize}
 
 

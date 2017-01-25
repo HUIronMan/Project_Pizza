@@ -1,0 +1,15 @@
+{% if cart %}
+<p><a href="{% url 'orders:show_cart' %}">My cart</a></p>
+{% endif %}
+
+{% if available_pizzas %}
+    <!-- The menu -->
+    <ul>
+        {% for pizza in available_pizzas %}
+        <li><a href="{% url 'orders:menu_item' pizza.id %}">{{ pizza.name }}</a> {{ pizza.readable_price }} € </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Sorry, our menu is currently empty :-( </p>
+{% endif %}
+

@@ -1,0 +1,29 @@
+{% if is_empty %}
+<p>
+    <h2>Your cart is empty</h2>
+    <a href="{% url 'orders:menu' %}">Back</a>
+</p>
+{% else %}
+<p>
+    <h2>Your cart</h2>
+    <h3>Pizzas:</h3>
+    <ul>
+        {% for pizza in pizzas %}
+        <li>
+            {{ pizza.name }} - {{ pizza.readable_price }} € <br />
+            <span style="font-style: italic">Extra toppings</span>: 
+            <ul>
+                {% for topping in pizza.ordertopping_set.all %}
+                <li>{{ topping.name }} - {{ topping.readable_price }} € </li>
+                {% endfor %}
+            </ul>
+        </li> 
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'orders:menu' %}">Back</a> <br />
+    <a href="{% url 'orders:clear_cart' %}">Clear your cart</a> <br />
+
+    <a href="{% url 'orders:confirm_order' %}">Order</a>
+</p>
+{% endif %}

@@ -1,0 +1,31 @@
+{% if open_orders %}
+<p>
+    <ul>
+    {% for order in open_orders %}
+    <li>
+        {{ order }} <br />
+        Name: {{ order.customer_name }} <br />
+        Address: {{ order.customer_address }} <br />
+        Total: {{ order.total }}
+        <ul>
+        {% for pizza in order.pizzas %}
+            <li>
+                {{ pizza.name }}
+                <ul>
+                {% for topping in pizza.ordertopping_set.all %}
+                <li>{{ topping.name }}</li>
+                {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+        </ul>
+        <a href="{% url 'orders:set_order_state' order.id 0 %}">Set New</a> <br />
+        <a href="{% url 'orders:set_order_state' order.id 1 %}">Set Baking</a> <br />
+        <a href="{% url 'orders:set_order_state' order.id 2 %}">Set Done</a> 
+    </li>
+    {% endfor %}
+    </ul>
+</p>
+{% else %}
+<p>No open orders</p>
+{% endif %}

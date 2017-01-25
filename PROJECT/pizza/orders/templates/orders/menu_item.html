@@ -1,0 +1,20 @@
+<p>
+<h1>{{ pizza.name }}</h1>
+
+<span style="font-style: italic">Price: {{ pizza.readable_price }} €</span>
+</p>
+
+<form action="{% url 'orders:push_on_cart' pizza.id %}" method="post">
+    {% csrf_token %}
+    {% if available_toppings %}
+    Do you want to select additional toppings? <br />
+        {% for topping in available_toppings %}
+        <input type="checkbox" name="topping{{ forloop.counter }}" id="topping{{ forloop.counter }}" value="{{ topping.id }}" />
+            <label for="topping{{ forloop.counter }}">{{ topping.name }} - {{ topping.readable_price }} € </label></br />
+        {% endfor %}
+    {% else %}
+        Sorry, we don't have any additional toppings.
+    {% endif %}
+    <input type="submit" value="Place on cart" />
+</form>
+

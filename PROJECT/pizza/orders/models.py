@@ -64,16 +64,36 @@ class Cart(models.Model):
     A temporary customers cart.
     We don't need any data besides the automatically generated ID
     """
-    created_on = models.DateTimeField('date created', default=timezone.now)
+    def is_empty(self):
+        return len(self.orderpizza_set.all()) == 0
 
     def __str__(self):
         s = "cart " + str(self.id)
         s += ":\n"
-        for pizza in OrderPizza.objects.filter(cart__id=self.id):
+        for pizza in self.orderpizza_set.all():
             s += pizza.name() + "\n"
-            for topping in OrderTopping.objects.filter(pizza__id=pizza.id):
+            for topping in pizza.ordertopping_set.all():
                 s += "  " + topping.name() + "\n"
         return s
+
+    def total(self):
+        total = 0
+        for pizza in self.orderpizza_set.all():
+            total += pizza.price()
+            for topping in pizza.ordertopping_set.all():
+                total += topping.price()
+        return total
+
+    def total_readable(self):
+        price_str = str(self.total() / 100.0)
+        # find the '.' and add a second 0, if necessary
+        for i in range(len(price_str)):
+            if price_str[i] != '.':
+                continue
+            if i >= len(price_str) - 2:
+                price_str += "0"
+                break
+        return price_str
 
 class OrderPizza(models.Model):
     """A pizza contained in an order."""
@@ -110,3 +130,33 @@ class OrderTopping(models.Model):
 
     def __str__(self):
         return self.name()
+
+class Order(models.Model):
+    """A order entered into the system"""
+    STATE_NEW = 0
+    STATE_BAKING = 1
+    STATE_DONE = 2
+    
+    state = models.SmallIntegerField(default=STATE_NEW)
+    from_cart = models.OneToOneField(Cart, on_delete=models.CASCADE, primary_key=False)
+    # Since we dont do customer registration,
+    # simpy putting the name and address in the Order
+    # is probably fine
+    customer_name = models.CharField(max_length=255)
+    customer_address = models.CharField(max_length=255)
+    
+    def __str__(self):
+        state_str = ""
+        if self.state == Order.STATE_NEW:
+            state_str = "[NEW] "
+        elif self.state == Order.STATE_BAKING:
+            state_str = "[BAKING] "
+        else:
+            state_str = "[DONE] "
+        return state_str + " %d" % self.from_cart.id
+
+    def pizzas(self):
+        return self.from_cart.orderpizza_set.all()
+   
+    def total(self):
+        return self.from_cart.total_readable()

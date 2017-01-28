@@ -93,6 +93,7 @@ class Cart(models.Model):
             if i >= len(price_str) - 2:
                 price_str += "0"
                 break
+        price_str += " €"
         return price_str
 
 class OrderPizza(models.Model):

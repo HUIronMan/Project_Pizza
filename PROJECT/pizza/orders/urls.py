@@ -7,8 +7,9 @@ app_name = 'orders'
 
 urlpatterns = [
     url(r'^$', views.menu, name='menu'),
-    url(r'^(?P<pizza_id>[0-9]+)/$', views.menu_item, name='menu_item'),
-    url(r'^(?P<pizza_id>[0-9]+)/push_on_cart/$', views.push_on_cart, name='push_on_cart'),
+    url(r'^(?P<pizza_id>[0-9]+)/$', views.menu_item_size, name='menu_item_size'),
+    url(r'^(?P<pizza_id>[0-9]+)/(?P<size_id>[0-9]+)/$', views.menu_item, name='menu_item'),
+    url(r'^(?P<pizza_id>[0-9]+)/(?P<size_id>[0-9]+)/push_on_cart/$', views.push_on_cart, name='push_on_cart'),
     url(r'^cart/show$', views.show_cart, name='show_cart'),
     url(r'^cart/clear$', views.clear_cart, name='clear_cart'),
     url(r'^order/confirm$', views.confirm_order, name='confirm_order'),

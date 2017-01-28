@@ -5,12 +5,16 @@
         {% for pizza in cart.orderpizza_set.all %}
         <li>
             {{ pizza.name }} - {{ pizza.readable_price }} € <br />
-            <span style="font-style: italic">Extra toppings</span>: 
-            <ul>
-                {% for topping in pizza.ordertopping_set.all %}
-                <li>{{ topping.name }} - {{ topping.readable_price }} € </li>
-                {% endfor %}
-            </ul>
+            <span style="font-style: italic">Pizza Size </span>:
+            {{ pizza.ordersize_set.get.name }} - {{ pizza.ordersize_set.get.readable_price }} € </li>
+            {% if pizza.ordertopping_set.all %}
+                <span style="font-style: italic">Extra toppings</span>: 
+                <ul>
+                    {% for topping in pizza.ordertopping_set.all %}
+                    <li>{{ topping.name }} - {{ topping.readable_price }} € </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </li> 
         {% endfor %}
     </ul>

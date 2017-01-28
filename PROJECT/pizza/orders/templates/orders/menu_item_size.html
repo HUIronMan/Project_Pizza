@@ -1,0 +1,15 @@
+<p>
+<h1>{{ pizza.name }}</h1>
+
+<span style="font-style: italic">Price: {{ pizza.readable_price }} €</span>
+</p>
+Size:</p>
+{% if available_sizes %}
+    <ul>
+        {% for size in available_sizes %}
+        <li><a href="{% url 'orders:menu_item' pizza.id size.id %}">{{ size.name }}</a> +{{ size.readable_price }} € </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    Sorry, we currently don't have any sizes.
+{% endif %}

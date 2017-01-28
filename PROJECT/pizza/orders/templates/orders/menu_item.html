@@ -1,13 +1,15 @@
 <p>
-<h1>{{ pizza.name }}</h1>
+<h1>{{ pizza.name }} - {{ size.name }}</h1>
 
-<span style="font-style: italic">Price: {{ pizza.readable_price }} €</span>
+<span style="font-style: italic">Price: {{ pizza.readable_price }} + {{ size.readable_price }} €</span>
 </p>
 
-<form action="{% url 'orders:push_on_cart' pizza.id %}" method="post">
+
+<form action="{% url 'orders:push_on_cart' pizza.id size.id %}" method="post">
     {% csrf_token %}
     {% if available_toppings %}
-    Do you want to select additional toppings? <br />
+    Do you want to select additional toppings?  <br />
+    (You may select {{ size.max_toppings }} ) <br /><br />
         {% for topping in available_toppings %}
         <input type="checkbox" name="topping{{ forloop.counter }}" id="topping{{ forloop.counter }}" value="{{ topping.id }}" />
             <label for="topping{{ forloop.counter }}">{{ topping.name }} - {{ topping.readable_price }} € </label></br />
@@ -18,3 +20,12 @@
     <input type="submit" value="Place on cart" />
 </form>
 
+<script src="http://code.jquery.com/jquery-1.11.0.min.js">
+    $('input[type=checkbox]').change(function(e){
+        var maxAllowed = {{ size.max_toppings }};
+        if ($('input[type=checkbox]:checked').length > maxAllowed ) {
+            $(this).prop('checked', false)
+            alert('You can select a maximum  of ' + maxAllowed + ' toppings!');
+       }
+    })
+</script>

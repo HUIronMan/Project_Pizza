@@ -11,6 +11,8 @@ We need the following objects:
              as a template for "OrderPizza", which can be placed inside an order with
              additional toppings.
 
+    Size - Size of the pizza
+
     Topping - A Topping can be ordered to be placed on a pizza.
               
 
@@ -39,6 +41,29 @@ class MenuPizza(models.Model):
                 price_str += "0"
                 break
         return price_str
+
+class MenuSize(models.Model):
+    name = models.CharField(max_length=10)
+    price = models.IntegerField(default=0) # in cents
+    ntopings = models.IntegerField(default=3) # number of available toppings
+
+    def __str__(self):
+        return self.name
+
+    def readable_price(self):
+        """ Returns the price in euros, with 2 cent-digits after the decimal-point """
+        price_str = str(self.price / 100.0)
+        # find the '.' and add a second 0, if necessary
+        for i in range(len(price_str)):
+            if price_str[i] != '.':
+                continue
+            if i >= len(price_str) - 2:
+                price_str += "0"
+                break
+        return price_str  
+
+    def max_toppings(self):
+        return str(self.ntopings)      
 
 class MenuTopping(models.Model):
     name = models.CharField(max_length=80)
@@ -72,6 +97,7 @@ class Cart(models.Model):
         s += ":\n"
         for pizza in self.orderpizza_set.all():
             s += pizza.name() + "\n"
+            s += pizza.ordersize_set.get().name()+"\n"
             for topping in pizza.ordertopping_set.all():
                 s += "  " + topping.name() + "\n"
         return s
@@ -80,6 +106,7 @@ class Cart(models.Model):
         total = 0
         for pizza in self.orderpizza_set.all():
             total += pizza.price()
+            total += pizza.ordersize_set.get().price()
             for topping in pizza.ordertopping_set.all():
                 total += topping.price()
         return total
@@ -93,7 +120,6 @@ class Cart(models.Model):
             if i >= len(price_str) - 2:
                 price_str += "0"
                 break
-        price_str += " €"
         return price_str
 
 class OrderPizza(models.Model):
@@ -110,6 +136,24 @@ class OrderPizza(models.Model):
 
     def name(self):
         return self.pizza.name
+
+    def __str__(self):
+        return self.name()
+
+class OrderSize(models.Model):
+    """A Size contained in an order. Belongs to a concrete OrderPizza"""
+    size = models.ForeignKey(MenuSize, on_delete=models.CASCADE)
+    pizza = models.ForeignKey(OrderPizza, on_delete=models.CASCADE)
+
+    def price(self):
+        return self.size.price
+
+    def readable_price(self):
+        """The price in the usual e.cc format"""
+        return self.size.readable_price()
+
+    def name(self):
+        return self.size.name
 
     def __str__(self):
         return self.name()

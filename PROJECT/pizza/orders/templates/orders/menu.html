@@ -6,7 +6,7 @@
     <!-- The menu -->
     <ul>
         {% for pizza in available_pizzas %}
-        <li><a href="{% url 'orders:menu_item' pizza.id %}">{{ pizza.name }}</a> {{ pizza.readable_price }} € </li>
+        <li><a href="{% url 'orders:menu_item_size' pizza.id %}">{{ pizza.name }}</a> {{ pizza.readable_price }} € </li>
         {% endfor %}
     </ul>
 {% else %}

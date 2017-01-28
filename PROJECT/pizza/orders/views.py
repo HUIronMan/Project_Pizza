@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.utils import timezone
 
-from .models import MenuPizza, MenuTopping, Cart, OrderPizza, OrderTopping, Order
+from .models import MenuPizza, MenuTopping, Cart, OrderPizza, OrderTopping, Order, MenuSize, OrderSize
 
 # Helper functions for managing the cart
 def __create_new_cart():
@@ -50,15 +50,21 @@ def menu(request):
         customer_cart = __open_or_create_cart(request)
     context = { 'available_pizzas': pizzas, 'cart': customer_cart }
     return render(request, 'orders/menu.html', context)
+
         
-    
-
-def menu_item(request, pizza_id): 
+def menu_item_size(request, pizza_id): 
     pizza = get_object_or_404(MenuPizza, pk=pizza_id)
-    available_toppings = MenuTopping.objects.all()
-    return render(request, 'orders/menu_item.html', {'pizza': pizza, 'available_toppings': available_toppings})
+    available_sizes = MenuSize.objects.all()
+    return render(request, 'orders/menu_item_size.html', {'pizza': pizza, 'available_sizes': available_sizes})
+  
 
-def push_on_cart(request, pizza_id):
+def menu_item(request, pizza_id, size_id): 
+    pizza = get_object_or_404(MenuPizza, pk=pizza_id)
+    size  = get_object_or_404(MenuSize, pk=size_id)
+    available_toppings = MenuTopping.objects.all()
+    return render(request, 'orders/menu_item.html', {'pizza': pizza, 'size': size, 'available_toppings': available_toppings})
+
+def push_on_cart(request, pizza_id, size_id):
     collected_toppings = False
     toppings = []
     i = 1
@@ -81,7 +87,10 @@ def push_on_cart(request, pizza_id):
     # Push the selected pizza and toppings onto the cart
     pizza = OrderPizza(pizza=MenuPizza.objects.get(pk=pizza_id), cart=customer_cart)
     pizza.save()
+    size = OrderSize(size=MenuSize.objects.get(pk=size_id), pizza=pizza)
+    size.save()
     print("Ordered pizza: " + str(pizza))
+    print("Ordered size: " + str(size))
     for topping in toppings:
         top = OrderTopping(topping=topping, pizza=pizza)
         top.save()

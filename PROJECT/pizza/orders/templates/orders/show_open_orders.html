@@ -6,11 +6,11 @@
         {{ order }} <br />
         Name: {{ order.customer_name }} <br />
         Address: {{ order.customer_address }} <br />
-        Total: {{ order.total }}
+        Total: {{ order.total }} €
         <ul>
         {% for pizza in order.pizzas %}
             <li>
-                {{ pizza.name }}
+                {{ pizza.name }} ({{ pizza.ordersize_set.get.name }})
                 <ul>
                 {% for topping in pizza.ordertopping_set.all %}
                 <li>{{ topping.name }}</li>

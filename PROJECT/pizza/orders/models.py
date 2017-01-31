@@ -125,7 +125,7 @@ class Cart(models.Model):
 class OrderPizza(models.Model):
     """A pizza contained in an order."""
     pizza = models.ForeignKey(MenuPizza, on_delete=models.CASCADE, related_name='pizza')
-    pizza_half = models.ForeignKey(MenuPizza, on_delete=models.CASCADE, related_name='pizza_half')
+    pizza_half = models.ForeignKey(MenuPizza, on_delete=models.CASCADE, related_name='pizza_half', null=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
 
     def price(self):

@@ -21,18 +21,27 @@ class OrderMethodTests(TestCase):
 '''
 
 class TestDB(TestCase):
-  """Idea setup a order in a database and see if it is viewable in the end"""
+  """Idea setup a customer order in a database only and see if it is viewable in the end"""
+
+  def setUp(self):
+    self.client = Client()
+
+  @classmethod
+  def setUpTestData(cls):
+    cls.pizza1 = MenuPizza.objects.create(name="Pizza1", price=100)
+    cls.pizza2 = MenuPizza.objects.create(name="Pizza2", price=1000)
+    cls.size1  = MenuSize.objects.create(name="size1", price=100, ntopings=1, allows_splitting=False)
+    cls.size2  = MenuSize.objects.create(name="size2", price=1000, ntopings=2, allows_splitting=True)
+    cls.topping1 = MenuTopping.objects.create(name = "topping1", price = 100) # in cents
+    cls.topping2 = MenuTopping.objects.create(name = "topping2", price = 1000) # in cents
+    cls.cart1 = Cart.objects.create() # in cents
+    cls.cart2 = Cart.objects.create() # in cents
+
+  def TestDatabase(self):
+    self.assertContains(self.pizza1, "Pizza1")
+
 
 '''
-class MenuSize(models.Model):
-    name = models.CharField(max_length=10)
-    price = models.IntegerField(default=0) # in cents
-    ntopings = models.IntegerField(default=3) # number of available toppings
-    allows_splitting = models.BooleanField(default=False)    
-class MenuTopping(models.Model):
-    name = models.CharField(max_length=80)
-    price = models.IntegerField(default=0) # in cents
-class Cart(models.Model):
 class OrderPizza(models.Model):
     """A pizza contained in an order."""
     pizza = models.ForeignKey(MenuPizza, on_delete=models.CASCADE, related_name='pizza')
@@ -60,6 +69,8 @@ class Order(models.Model):
     customer_name = models.CharField(max_length=255)
     customer_address = models.CharField(max_length=255)
 '''
+
+
 
 
 
@@ -111,6 +122,24 @@ class TestWebInterface(TestCase):
     self.assertContains(response, 'size2')
     self.assertContains(response, 'Pizza2')
 
+  def test_toppings_page(self):
+    url = '/1/1/'
+    response = self.client.get(url)
+    self.assertEqual(response.status_code, 200)
+    self.assertTemplateUsed(response, 'orders/menu_item.html')
+    self.assertNotContains(response, "Sorry, we don't have any additional toppings.")
+    self.assertContains(response, 'topping1')
+    self.assertContains(response, 'topping2')
+    self.assertContains(response, 'Pizza1')
+    url = '/2/2/'
+    response = self.client.get(url)
+    self.assertEqual(response.status_code, 200)
+    self.assertTemplateUsed(response, 'orders/menu_item.html')
+    self.assertNotContains(response, "Sorry, we don't have any additional toppings.")
+    self.assertContains(response, 'topping1')
+    self.assertContains(response, 'topping2')
+    self.assertContains(response, 'Pizza1') #is pizza splitting possible
+    self.assertContains(response, 'Pizza2')
 
 
 #Hier würde ich gerne die die funktionen ohne webinterface testen, aber das request object hat keine seasson id  

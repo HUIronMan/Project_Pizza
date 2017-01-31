@@ -73,61 +73,46 @@
 %% Only modify below here  and change myTitle!!!!!!!!!!!!!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Aufgabe 1}
-\subsection*{Enviroment Setup}
+\subsection*{Systemvorraussetzungen}
 \begin{enumerate}
- \item Stellt sicher das Python in mindestens version 3.4 installiert ist
+\item Stellt sicher das Python in mindestens version 3.4 installiert ist
 
-\item Stellt sicher das "pip" installiert ist:\\
-Ubuntu/Linux Mint:
-\begin{lstlisting}
-sudo apt-get install python3-pip
-\end{lstlisting}
-Arch Linux:
-\begin{lstlisting}
-sudo pacman -S python3-pip
-\end{lstlisting}
+\item Pip(3) wird empfohlen zur Installation im folgenden empfohlen ist jedoch nicht notwending.
 
-\item Installiert virtualenv
-\begin{lstlisting}
-sudo pip install virtualenv
-\end{lstlisting}
-ODER:
-\begin{lstlisting}
-sudo pip3 install virtualenv
-\end{lstlisting}
+\item Django (getestet mit Version 1.10.5)
 
-\item cd in das Projektverzeichnis
-\begin{lstlisting}
-cd /Pfad/zum/SE/Projekt
-\end{lstlisting}
+\item Möglicherweise werden weitere Pakete benötigt. Im unerwarteten Falle dessen, erhalten sie hierzu entsprechende Fehlermeldungen beim Aufrufen des folgenden Befehl.
 
-\item Aktiviert die virtuelle Umgebung mit der Django Installation. (Möglicherweise muss heir die VIRTUAL_ENV Variable angepasst werden).
-\begin{lstlisting}
-source bin/activate
-\end{lstlisting}
-
-\item Zum aktivieren des Entwicklungsservers in das PROJECT/pizza Verzeichnis gehen und mittels
+\item Zum aktivieren des Entwicklungsservers in das \url{PROJECT/pizza} Verzeichnis gehen und mittels
 \begin{lstlisting}
 python manage.py runserver
 \end{lstlisting}
 den Server starten. (Erreichbar unter 127.0.0.1:8000)
-
-\item Deaktiviert die virtuelle Umgebung mit:
-\begin{lstlisting}
-deactivate
-\end{lstlisting}
 \end{enumerate}
 
 \subsection*{Nutzung (Kunde/Angestellter/Admin)}
 
-In die Kundensicht gelangt man über die Adresse: \url{http://127.0.0.1:8000/} von woaus die Bedinung intuitiv sein sollte.\\ \\
+In die Kundensicht gelangt man über die Adresse: \url{http://127.0.0.1:8000/} von wo aus die Bedinung intuitiv sein sollte.\\ \\
 
 In die Angestelltensicht gelangt man über die Adresse: \url{http://127.0.0.1:8000/staff/open_orders}, welche noch intuitiver ist und zur Zeit nicht Passwort geschützt ist.\\ \\
 
 Da Pizzen statisch sein sollen kann der Angesetllte die Rezepte nicht ändern. Dies ist jedoch dem Admin über die Adresse \url{http://127.0.0.1:8000/admin/} erlaubt. Da dies jedoch nicht mehr Teil der Aufgabenstellung ist bleibt es dem Leser selber überlassen das nötige Passwort zu finden ;-).
 
 
+\subsection*{Programmstruktur}
+Die wesentlichen Komponenten befinden sich im Ordner \url{PROJECT/pizza/}, hier findet sich die Datei manage.py zum Aufrufen des Servers und die Datenbank.\\
+Im Unterordner  \url{PROJECT/pizza/orders/} findet sich der Haupteil des Codes.\\
+In der Datei Models.py wird die Datenbankstruktur durch ein Pythoninterface festgelegt.\\
+In der Datei views.py werden die einzelnen Seiteninhalte berechnet, zur gestalltung finden sich dann dann die entsprechenden Templates im ordner  \url{PROJECT/pizza/orders/templates/} und einige utility Funktionen in utils.py\\
+Alle Blackboxtesting Funktionen finden sich in der datei tests.py.
+
 \newpage
 \section*{Aufgabe 2}
+Zum testen wird der Befehl
+\begin{lstlisting}
+python manage.py test
+\end{lstlisting}
+aufgerufen. Die Test selber können in \url{PROJECT/pizza/orders/tests.py} gefunden werden.
+
 
 \end{document}

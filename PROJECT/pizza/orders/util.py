@@ -41,10 +41,12 @@ def is_cart_open(request):
     return True
 
 
-def push_pizza_on_cart(cart, menu_pizza_id, size_id, menu_topping_ids):
+def push_pizza_on_cart(cart, menu_pizza_id, half_id, size_id, menu_topping_ids):
     """Push a pizza of the given size and additional toppings onto the given cart
     """
     order_pizza = OrderPizza(pizza=MenuPizza.objects.get(pk=menu_pizza_id), cart=cart)
+    if half_id != None:
+        order_pizza.pizza_half = MenuPizza.objects.get(pk=half_id)
     order_pizza.save()
     size = OrderSize(size=MenuSize.objects.get(pk=size_id), pizza=order_pizza)
     size.save()
@@ -55,8 +57,8 @@ def push_pizza_on_cart(cart, menu_pizza_id, size_id, menu_topping_ids):
         top.save()
         print("Ordered topping: " + str(top))
 
-def create_order_from_cart(cart):
-    new_order = Order(from_cart=cart, customer_name=request.POST['name'], customer_address=request.POST['addr'])
+def create_order_from_cart(cart, name, addr):
+    new_order = Order(from_cart=cart, customer_name=name, customer_address=addr)
     new_order.save()
     return new_order
 

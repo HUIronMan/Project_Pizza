@@ -31,8 +31,11 @@ def menu_item_size(request, pizza_id):
 def menu_item(request, pizza_id, size_id): 
     pizza = get_object_or_404(MenuPizza, pk=pizza_id)
     size  = get_object_or_404(MenuSize, pk=size_id)
+    available_pizzas = MenuPizza.objects.all()
     available_toppings = MenuTopping.objects.all()
-    return render(request, 'orders/menu_item.html', {'pizza': pizza, 'size': size, 'available_toppings': available_toppings})
+    return render(request, 'orders/menu_item.html',
+            {'pizza': pizza, 'size': size,
+                'available_toppings': available_toppings, 'available_pizzas': available_pizzas})
 
 def push_on_cart(request, pizza_id, size_id):
     collected_toppings = False
@@ -47,12 +50,15 @@ def push_on_cart(request, pizza_id, size_id):
         else:
             print(key + " is not in toppings")
             collected_toppings = True
+    half_pizza_id = None
+    if 'half_pizza' in request.POST:
+        half_pizza_id = int(request.POST['half_pizza'])
 
     # Check if we have an open cart or create a new one
     customer_cart = open_or_create_cart(request)
 
     # Push the selected pizza and toppings onto the cart
-    push_pizza_on_cart(customer_cart, pizza_id, size_id, toppings)
+    push_pizza_on_cart(customer_cart, pizza_id, half_pizza_id, size_id, toppings)
 
     return HttpResponseRedirect('/cart/show')
 
@@ -84,7 +90,7 @@ def place_order(request):
     if not is_cart_open(request):
         return HttpResponseRedirect('/') # Prevent empty orders
     cart = open_or_create_cart(request)
-    new_order = create_order_from_cart(cart) 
+    new_order = create_order_from_cart(cart, request.POST['name'], request.POST['addr']) 
     print("Created order " + str(new_order))
     return HttpResponseRedirect('/order/thanks')
 

@@ -130,14 +130,15 @@ class OrderPizza(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
 
     def price(self):
-        return self.pizza.price #if self.pizza.price > self.pizza_half.price else self.pizza_half.price
+        return self.pizza.price if self.pizza.price > self.pizza_half.price else self.pizza_half.price
 
     def readable_price(self):
         """The price in the usual e.cc format"""
-        return self.pizza.readable_price()# if self.pizza.price > self.pizza_half.price else self.pizza_half.readable_price()
+        return self.pizza.readable_price() if self.pizza.price > self.pizza_half.price else self.pizza_half.readable_price()
 
     def name(self):
-        return self.pizza.name
+        return self.pizza.name if self.pizza_half == None else self.pizza.name + "/" + self.pizza_half.name
+
 
     def __str__(self):
         return self.name()

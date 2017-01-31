@@ -8,6 +8,13 @@
 <form action="{% url 'orders:push_on_cart' pizza.id size.id %}" method="post">
     {% csrf_token %}
     {% if available_toppings %}
+    {% if size.allows_splitting %}
+    Do you want to split the pizza in half? <br />
+        {% for half_pizza in available_pizzas %}
+        <input type="radio" name="half_pizza" id="pizza{{ forloop.counter }}" value="{{ half_pizza.id }}" />
+        <label for="pizza{{ forloop.counter }}">{{ half_pizza.name }} </label> <br />
+        {% endfor %}
+    {% endif %}
     Do you want to select additional toppings?  <br />
     (You may select {{ size.max_toppings }} ) <br /><br />
         {% for topping in available_toppings %}

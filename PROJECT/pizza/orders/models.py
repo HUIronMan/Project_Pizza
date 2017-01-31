@@ -46,6 +46,7 @@ class MenuSize(models.Model):
     name = models.CharField(max_length=10)
     price = models.IntegerField(default=0) # in cents
     ntopings = models.IntegerField(default=3) # number of available toppings
+    allows_splitting = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

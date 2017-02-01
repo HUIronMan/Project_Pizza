@@ -141,6 +141,36 @@ class TestWebInterface(TestCase):
     self.assertContains(response, 'Pizza1') #is pizza splitting possible
     self.assertContains(response, 'Pizza2')
 
+  def test_order_confirmation_page(self):
+    url = '/1/1/push_on_cart/'
+    response = self.client.post(url, {'topping1': 1, 'topping2': 2,})
+    self.assertEqual(response.status_code, 302)
+    self.assertRedirects(response, '/cart/show', status_code=302, target_status_code=200, host=None, msg_prefix='', fetch_redirect_response=True)
+    response = self.client.get('/cart/show')
+    self.assertEqual(response.status_code, 200)    
+    self.assertContains(response, 'topping1')
+    self.assertContains(response, 'topping2')
+    self.assertContains(response, 'Pizza1')
+    url = '/2/2/push_on_cart/'
+    response = self.client.post(url, {'topping1': 1, 'pizza1': 1})
+    self.assertEqual(response.status_code, 302)
+    self.assertRedirects(response, '/cart/show', status_code=302, target_status_code=200, host=None, msg_prefix='', fetch_redirect_response=True)
+    response = self.client.get('/cart/show')
+    self.assertEqual(response.status_code, 200)   
+    self.assertContains(response, 'topping1')
+    self.assertContains(response, 'Pizza1') #is pizza splitting possible
+    self.assertContains(response, 'Pizza2')
+
+#clear cart
+
+#continue shopping
+
+#place order
+
+#check order as cook
+
+#check if order status can be changed
+
 
 #Hier würde ich gerne die die funktionen ohne webinterface testen, aber das request object hat keine seasson id  
 """

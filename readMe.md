@@ -1,3 +1,5 @@
+Das steht doch alles schon im PDF, warum hier nochmal?
+
 ##Setup
 ### Python 3.4.
 Wenn du ein Mac benutzt, oder eine frühere Version von Python nutzt, möchtest du das Alias "python3" nutzen.

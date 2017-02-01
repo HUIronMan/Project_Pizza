@@ -18,7 +18,7 @@
     Do you want to select additional toppings?  <br />
     (You may select {{ size.max_toppings }} ) <br /><br />
         {% for topping in available_toppings %}
-        <input type="checkbox" name="topping{{ forloop.counter }}" id="topping{{ forloop.counter }}" value="{{ topping.id }}" />
+        <input type="checkbox" onclick="countCheckedBoxes(event)" name="topping{{ forloop.counter }}" id="topping{{ forloop.counter }}" value="{{ topping.id }}" />
             <label for="topping{{ forloop.counter }}">{{ topping.name }} - {{ topping.readable_price }} € </label></br />
         {% endfor %}
     {% else %}
@@ -27,12 +27,55 @@
     <input type="submit" value="Place on cart" />
 </form>
 
-<script src="http://code.jquery.com/jquery-1.11.0.min.js">
-    $('input[type=checkbox]').change(function(e){
-        var maxAllowed = {{ size.max_toppings }};
-        if ($('input[type=checkbox]:checked').length > maxAllowed ) {
-            $(this).prop('checked', false)
-            alert('You can select a maximum  of ' + maxAllowed + ' toppings!');
-       }
-    })
+<script>
+    var checkboxes = [];
+    var box = [];
+    const maxAllowed = {{ size.max_toppings }};
+
+    var getCheckboxes = function() {
+        var inputs = document.getElementsByTagName('input');
+        for (var i=0; i < inputs.length; i++) {
+            if (inputs[i].getAttribute('type') == 'checkbox') {
+                checkboxes.push(inputs[i]);
+            }
+        }
+    };
+    var countCheckedBoxes = function(e) {
+        var myChosenElement = e.target || e.srcElement;
+        if (myChosenElement.checked == false) {
+            var pos = box.indexOf(myChosenElement);
+            box.splice(pos, 1);
+            disable();
+        }
+        if (box.length < maxAllowed) {
+            if (myChosenElement.checked == true) {
+                box.push(myChosenElement);
+            }
+            if (box.length == maxAllowed) {
+                disable();
+            }
+        }
+    };
+    var disable = function() {
+        if (box.length == maxAllowed) {
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].disabled = true;
+            }
+            for (var i = 0; i < box.length; i++) {
+                var pos = checkboxes.indexOf(box[i]);
+                checkboxes[pos].disabled = false;
+//                console.log('Enabled: '); //My debug stuff
+//                console.log(checkboxes[pos]); //My debug stuff
+            }
+        } else {
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].disabled = false;
+            }
+        }
+//        console.log('--------- NEW TRY ---------'); //My debug stuff
+
+    };
+    window.onload = function() {
+        getCheckboxes();
+    };
 </script>

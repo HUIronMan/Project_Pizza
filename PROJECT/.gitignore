@@ -1,4 +1,6 @@
-bin
-include
-lib
-pip-selfcheck.json
+bin/**
+include/**
+lib/**
+
+/.idea
+.python

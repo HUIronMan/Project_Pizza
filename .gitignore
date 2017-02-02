@@ -32,4 +32,17 @@ Temporary Items
 .apdisk
 
 #Python binaries and temp files
-.pyc
+*.pyc
+**/__pycache__/**
+*.python
+
+/bin/**
+/include/**
+/lib/**
+pip-selfcheck.json
+
+.idea/
+**/.idea/
+
+PROJECT/.idea/workspace.xml
+

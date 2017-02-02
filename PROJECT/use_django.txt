@@ -1,23 +1,22 @@
-1. Stellt sicher das Python in mindestens version 3.4 installiert ist
+1. Python 3.4.
+Wenn du ein Mac benutzt, oder eine frühere Version von Python nutzt, möchtest du das Alias "python3" nutzen.
 
-2. Stellt sicher das "pip" installiert ist:
+2. Installiere "pip"
 Ubuntu/Linux Mint:
 sudo apt-get install python3-pip
+Mac:
+Ab Python 3.4 sollte pip3 mitinstalliert sein.
 
-3. Installiert virtualenv
-sudo pip install virtualenv
-ODER:
-sudo pip3 install virtualenv
+3. Installiere Django
+pip install Django
+pip3 install Django
 
-4. cd in das Projektverzeichnis
-cd /Pfad/zum/SE/Projekt
-
-5. Aktiviert die virtuelle Umgebung, in die Django installiert wurde (Hab ich gemacht)
-source bin/activate
-
-6. Zum aktivieren des Entwicklungsservers in das PROJECT/pizza Verzeichnis gehen und mittels
+4. Starte den Entwicklungsserver im PROJECT/pizza Verzeichnis:
 python manage.py runserver
-den Server starten. (Erreichbar unter 127.0.0.1:8000)
+python3 manage.py runserver
+(Erreichbar unter 127.0.0.1:8000)
 
-7. Deaktiviert die virtuelle Umgebung mit:
-deactivate
+5. Teste die App im PROJECT/pizza Verzeichnis:
+python manage.py test
+python3 manage.py test
+

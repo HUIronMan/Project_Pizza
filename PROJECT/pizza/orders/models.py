@@ -46,6 +46,7 @@ class MenuSize(models.Model):
     name = models.CharField(max_length=10)
     price = models.IntegerField(default=0) # in cents
     ntopings = models.IntegerField(default=3) # number of available toppings
+    allows_splitting = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -125,18 +126,25 @@ class Cart(models.Model):
 class OrderPizza(models.Model):
     """A pizza contained in an order."""
     pizza = models.ForeignKey(MenuPizza, on_delete=models.CASCADE, related_name='pizza')
-    pizza_half = models.ForeignKey(MenuPizza, on_delete=models.CASCADE, related_name='pizza_half')
+    pizza_half = models.ForeignKey(MenuPizza, on_delete=models.CASCADE, related_name='pizza_half', null=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
 
     def price(self):
-        return self.pizza.price #if self.pizza.price > self.pizza_half.price else self.pizza_half.price
+        half_price = 0
+        if self.pizza_half:
+            half_price = self.pizza_half.price
+        return self.pizza.price if self.pizza.price > half_price else self.pizza_half.price
 
     def readable_price(self):
         """The price in the usual e.cc format"""
-        return self.pizza.readable_price()# if self.pizza.price > self.pizza_half.price else self.pizza_half.readable_price()
+        half_price = 0
+        if self.pizza_half:
+            half_price = self.pizza_half.price
+        return self.pizza.readable_price() if self.pizza.price > half_price else self.pizza_half.readable_price()
 
     def name(self):
-        return self.pizza.name
+        return self.pizza.name if self.pizza_half == None else self.pizza.name + "/" + self.pizza_half.name
+
 
     def __str__(self):
         return self.name()

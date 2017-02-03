@@ -13,71 +13,6 @@ from .util import *
 
 
 
-'''
-# Create your tests here
-class OrderMethodTests(TestCase):
-    def test_is_getting_old_with_future_order(self):
-        """
-        Is_getting_old() should return False for orders where received_date is in the future.
-        """
-        time = timezone.now() + datetime.timedelta(hours=1)
-        future_order = Order(received_date=time)
-        self.assertIs(future_order.is_getting_old(), False)
-'''
-
-class TestDB(TestCase):
-    """Idea setup a customer order in a database only and see if it is viewable in the end"""
-
-def setUp(self):
-    self.client = Client()
-
-    @classmethod
-    def setUpTestData(cls):
-        cls.pizza1 = MenuPizza.objects.create(name="Pizza1", price=100)
-        cls.pizza2 = MenuPizza.objects.create(name="Pizza2", price=1000)
-        cls.size1  = MenuSize.objects.create(name="size1", price=100, ntopings=1, allows_splitting=False)
-        cls.size2  = MenuSize.objects.create(name="size2", price=1000, ntopings=2, allows_splitting=True)
-        cls.topping1 = MenuTopping.objects.create(name = "topping1", price = 100) # in cents
-        cls.topping2 = MenuTopping.objects.create(name = "topping2", price = 1000) # in cents
-        cls.cart1 = Cart.objects.create() # in cents
-        cls.cart2 = Cart.objects.create() # in cents
-
-    def test_Database(self):
-        pass
-        return
-        #self.assertContains(self.pizza1, "Pizza1")
-
-
-'''
-class OrderPizza(models.Model):
-    """A pizza contained in an order."""
-    pizza = models.ForeignKey(MenuPizza, on_delete=models.CASCADE, related_name='pizza')
-    pizza_half = models.ForeignKey(MenuPizza, on_delete=models.CASCADE, related_name='pizza_half', null=True)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-class OrderSize(models.Model):
-    """A Size contained in an order. Belongs to a concrete OrderPizza"""
-    size = models.ForeignKey(MenuSize, on_delete=models.CASCADE)
-    pizza = models.ForeignKey(OrderPizza, on_delete=models.CASCADE)
-class OrderTopping(models.Model):
-    """A Topping contained in an order. Belongs to a concrete OrderPizza"""
-    topping = models.ForeignKey(MenuTopping, on_delete=models.CASCADE)
-    pizza = models.ForeignKey(OrderPizza, on_delete=models.CASCADE)
-class Order(models.Model):
-    """A order entered into the system"""
-    STATE_NEW = 0
-    STATE_BAKING = 1
-    STATE_DONE = 2
-    
-    state = models.SmallIntegerField(default=STATE_NEW)
-    from_cart = models.OneToOneField(Cart, on_delete=models.CASCADE, primary_key=False)
-    # Since we dont do customer registration,
-    # simpy putting the name and address in the Order
-    # is probably fine
-    customer_name = models.CharField(max_length=255)
-    customer_address = models.CharField(max_length=255)
-    '''
-
-
  
 class Test_views_py(TestCase):
     """WhiteBoxTesting for views"""
@@ -193,56 +128,34 @@ class Test_views_py(TestCase):
         response = clear_cart(request)
         self.assertEqual(response.status_code, 302)
 
+    def test_thanks(self):
+        request = self.factory.get('/')
+        response = thanks(request)
+        self.assertContains(response, 'Thank you for your order')
 
-#restock
-#continue shopping
-#add stock
-
-#place order
-
-#check order as cook
-
-#check if order status can be changed
-
-'''the following functions still need tests
-
-def confirm_order(request):
-    """Show a form asking for the clients name and address"""
-    cart = None
-    if is_cart_open(request):
-        cart = open_or_create_cart(request)
-    else:
-        return HttpResponseRedirect('/') # Prevent empty orders
-    return render(request, 'orders/confirm_order.html', {'cart': cart, 'total': cart.total_readable()})
-
-def place_order(request):
-    if not is_cart_open(request):
-        return HttpResponseRedirect('/') # Prevent empty orders
-    cart = open_or_create_cart(request)
-    new_order = create_order_from_cart(cart, request.POST['name'], request.POST['addr']) 
-    print("Created order " + str(new_order))
-    return HttpResponseRedirect('/order/thanks')
-
-def thanks(request):
-    return render(request, 'orders/thanks.html', {})
+    def test_get_queryset(self):#
+        returnVal = None
+        returnVal = ShowOpenOrders.get_queryset(ShowOpenOrders)
+        self.assertNotEqual(returnVal, None)
 
 
-class ShowOpenOrders(generic.ListView):
-    template_name = 'orders/show_open_orders.html'
-    context_object_name = 'open_orders'
+#TODO
+    def test_confirm_order(self):
+        pass
 
-    def get_queryset(self):
-        """Return all unfinished orders"""
-        print(Order.objects.all())
-        return Order.objects.exclude(state=Order.STATE_DONE)
+    def test_place_order(self):
+        request = self.factory.get('/')
+        engine = importlib.import_module(settings.SESSION_ENGINE)
+        request.session  = engine.SessionStore()
+        request.session.save()
+        response = clear_cart(request)
+        self.assertEqual(response.status_code, 302)
 
-def set_order_state(request, order_id, state):
-    order = get_object_or_404(Order, pk=order_id)
-    order.state = state
-    order.save()
-    return HttpResponseRedirect('/staff/open_orders')
+#TODO
+    def test_set_order_state(self):
+        pass
 
-'''
+
 
 class Test_models_py(TestCase):
     """WhiteBoxTesting for models"""

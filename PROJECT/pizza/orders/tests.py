@@ -75,7 +75,7 @@ class Order(models.Model):
     # is probably fine
     customer_name = models.CharField(max_length=255)
     customer_address = models.CharField(max_length=255)
-'''
+    '''
 
 
  
@@ -159,26 +159,40 @@ class Test_views_py(TestCase):
 
         response = push_on_cart(request, 1, 1)
         self.assertEqual(response.status_code, 302)
-        '''
-        self.assertRedirects(response, '/cart/show', status_code=302, target_status_code=200, host=None, msg_prefix='', fetch_redirect_response=True)
-        response = self.client.get('/cart/show')
-        self.assertEqual(response.status_code, 200)    
-        self.assertContains(response, 'topping1')
-        self.assertContains(response, 'topping2')
-        self.assertContains(response, 'Pizza1')
-        url = '/2/2/push_on_cart/'
-        response = self.client.post(url, {'topping1': 1, 'pizza1': 1})
+
+        request = self.factory.post('/', {'topping1': 1, 'topping2': 2, 'half_pizza': 2})
+
+        engine = importlib.import_module(settings.SESSION_ENGINE)
+        request.session  = engine.SessionStore()
+        request.session.save()
+
+        response = push_on_cart(request, 2, 2)
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, '/cart/show', status_code=302, target_status_code=200, host=None, msg_prefix='', fetch_redirect_response=True)
-        response = self.client.get('/cart/show')
-        self.assertEqual(response.status_code, 200)   
-        self.assertContains(response, 'topping1')
-        self.assertContains(response, 'Pizza1') #is pizza splitting possible
-        self.assertContains(response, 'Pizza2')
-        '''
 
 
-#clear cart
+    def test_show_cart(self): 
+        request = self.factory.get('/')
+        engine = importlib.import_module(settings.SESSION_ENGINE)
+        request.session  = engine.SessionStore()
+        request.session.save()
+
+        response = show_cart(request)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Your cart is empty")
+        self.assertNotContains(response, 'topping1')
+        self.assertNotContains(response, 'Pizza1')
+
+
+    def test_clear_cart(self):
+        request = self.factory.get('/')
+        engine = importlib.import_module(settings.SESSION_ENGINE)
+        request.session  = engine.SessionStore()
+        request.session.save()
+
+        response = clear_cart(request)
+        self.assertEqual(response.status_code, 302)
+
 
 #restock
 #continue shopping
@@ -191,46 +205,6 @@ class Test_views_py(TestCase):
 #check if order status can be changed
 
 '''the following functions still need tests
-
-def push_on_cart(request, pizza_id, size_id):
-    collected_toppings = False
-    toppings = []
-    i = 1
-    while not collected_toppings:
-        key = "topping" + str(i)
-        if key in request.POST:
-            print(key + " is in toppings")
-            toppings.append(request.POST["topping" + str(i)])
-            i += 1
-        else:
-            print(key + " is not in toppings")
-            collected_toppings = True
-    half_pizza_id = None
-    if 'half_pizza' in request.POST:
-        half_pizza_id = int(request.POST['half_pizza'])
-
-    # Check if we have an open cart or create a new one
-    customer_cart = open_or_create_cart(request)
-
-    # Push the selected pizza and toppings onto the cart
-    push_pizza_on_cart(customer_cart, pizza_id, half_pizza_id, size_id, toppings)
-
-    return HttpResponseRedirect('/cart/show')
-
-def show_cart(request): 
-    customer_cart = open_or_create_cart(request)
-    if customer_cart.is_empty():
-        context = { 'is_empty': True, 'pizzas': None }
-        return render(request, 'orders/show_cart.html', context)
-    else:
-        pizzas = OrderPizza.objects.filter(cart__id=customer_cart.id)
-        context = { 'is_empty': False, 'pizzas': pizzas }
-        return render(request, 'orders/show_cart.html', context)
-
-def clear_cart(request):
-    if is_cart_open(request):
-       del request.session['cart_id']
-    return HttpResponseRedirect('/')
 
 def confirm_order(request):
     """Show a form asking for the clients name and address"""
@@ -471,7 +445,7 @@ class Order(models.Model):
 
 
 class Test_util_py(TestCase):
-    """WhiteBoxTesting for models"""
+    """WhiteBoxTesting for util"""
 
     def setUp(self):
         # Every test needs access to the request factory.

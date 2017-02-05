@@ -202,11 +202,11 @@ class Order(models.Model):
     def __str__(self):
         state_str = ""
         if self.state == Order.STATE_NEW:
-            state_str = "[NEW] "
+            state_str = "[NEW]"
         elif self.state == Order.STATE_BAKING:
-            state_str = "[BAKING] "
+            state_str = "[BAKING]"
         else:
-            state_str = "[DONE] "
+            state_str = "[DONE]"
         return state_str + " %d" % self.from_cart.id
 
     def pizzas(self):

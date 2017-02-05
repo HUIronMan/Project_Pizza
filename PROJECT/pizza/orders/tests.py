@@ -5,7 +5,6 @@ from django.utils import timezone
 from django.contrib.sessions.models import Session
 from django.conf import settings
 import importlib
-from .models import *
 
 from .models import *
 from .views import *
@@ -141,7 +140,7 @@ class Test_views_py(TestCase):
 
 #TODO
     def test_confirm_order(self):
-        pass
+        return FALSE
 
     def test_place_order(self):
         request = self.factory.get('/')
@@ -153,209 +152,202 @@ class Test_views_py(TestCase):
 
 #TODO
     def test_set_order_state(self):
-        pass
+        return FALSE
 
 
 
 class Test_models_py(TestCase):
     """WhiteBoxTesting for models"""
 
+   # def setUp(self):
+        
+        #self.orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=create_new_cart())
 
-'''The following functions still need tests
-class MenuPizza(models.Model):
-    name = models.CharField(max_length=80)
-    price = models.IntegerField(default=0) # in cents
+    @classmethod
+    def setUpTestData(cls): 
+        cls.pizza1 = MenuPizza.objects.create(name="Pizza1", price=760)
+        cls.pizza2 = MenuSize.objects.create(name="Pizza2", price=123, ntopings=3)
+        cls.pizza3 = MenuSize.objects.create(name="Pizza3", price=123, ntopings=5, allows_splitting=True)
+        cls.topping1 = MenuTopping.objects.create(name="Topping1", price=321)
+        cls.pizza5 = MenuPizza.objects.create(name="Pizza5", price=690)
 
-    def __str__(self):
-        return self.name
+    def test_menu_pizza_str(self):
+        name = MenuPizza.__str__(self.pizza1)
+        self.assertEqual(name, "Pizza1")  
 
-    def readable_price(self):
-        """ Returns the price in euros, with 2 cent-digits after the decimal-point """
-        price_str = str(self.price / 100.0)
-        # find the '.' and add a second 0, if necessary
-        for i in range(len(price_str)):
-            if price_str[i] != '.':
-                continue
-            if i >= len(price_str) - 2:
-                price_str += "0"
-                break
-        return price_str
+    def test_menu_pizza_readable_price(self):
+        price = MenuPizza.readable_price(self.pizza1)
+        self.assertEqual(price, "7.60")
 
-class MenuSize(models.Model):
-    name = models.CharField(max_length=10)
-    price = models.IntegerField(default=0) # in cents
-    ntopings = models.IntegerField(default=3) # number of available toppings
-    allows_splitting = models.BooleanField(default=False)
+    def test_menu_size_str(self):
+        name2 = MenuSize.__str__(self.pizza2)
+        name3 = MenuSize.__str__(self.pizza3)
+        self.assertEqual(name2, "Pizza2") 
+        self.assertEqual(name3, "Pizza3") 
 
-    def __str__(self):
-        return self.name
+    def test_menu_size_readable_price(self):
+        price = MenuSize.readable_price(self.pizza2)
+        self.assertEqual(price, "1.23")         
 
-    def readable_price(self):
-        """ Returns the price in euros, with 2 cent-digits after the decimal-point """
-        price_str = str(self.price / 100.0)
-        # find the '.' and add a second 0, if necessary
-        for i in range(len(price_str)):
-            if price_str[i] != '.':
-                continue
-            if i >= len(price_str) - 2:
-                price_str += "0"
-                break
-        return price_str  
+    def test_max_toppings(self):
+        max_toppings_1 = MenuSize.max_toppings(self.pizza2)
+        max_toppings_2 = MenuSize.max_toppings(self.pizza3)
 
-    def max_toppings(self):
-        return str(self.ntopings)      
+        self.assertEqual(max_toppings_1, "3")
+        self.assertEqual(max_toppings_2, "5")
 
-class MenuTopping(models.Model):
-    name = models.CharField(max_length=80)
-    price = models.IntegerField(default=0) # in cents
+    def test_menu_toppings_str(self):
+        name4 = MenuTopping.__str__(self.topping1)
+        self.assertEqual(name4, self.topping1.name)    
 
-    def __str__(self):
-        return self.name
+    def test_menu_size_readable_price(self):
+        price = MenuTopping.readable_price(self.topping1)
+        self.assertEqual(price, "3.21") 
 
-    def readable_price(self):
-        price_str = str(self.price / 100.0)
-        # find the '.' and add a second 0, if necessary
-        for i in range(len(price_str)):
-            if price_str[i] != '.':
-                continue
-            if i >= len(price_str) - 2:
-                price_str += "0"
-                break
-        return price_str
+    def test_cart_is_empty(self):
+        new_cart = create_new_cart()
+        self.assertEqual(Cart.is_empty(new_cart), True)
 
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        self.assertEqual(Cart.is_empty(new_cart), False)
 
-class Cart(models.Model):
-    """
-    A temporary customers cart.
-    We don't need any data besides the automatically generated ID
-    """
-    def is_empty(self):
-        return len(self.orderpizza_set.all()) == 0
+    def test_cart_str_(self):
+        new_cart = create_new_cart()
+        string1 = "cart " + str(new_cart.id) + ":\n"
+        self.assertEqual(Cart.__str__(new_cart), string1)
 
-    def __str__(self):
-        s = "cart " + str(self.id)
-        s += ":\n"
-        for pizza in self.orderpizza_set.all():
-            s += pizza.name() + "\n"
-            s += pizza.ordersize_set.get().name()+"\n"
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        ordersize = OrderSize.objects.create(size=self.pizza2, pizza=orderpizza)
+        string2 = "cart " + str(new_cart.id)
+        string2 += ":\n"
+        for pizza in new_cart.orderpizza_set.all():
+            string2 += pizza.name() + "\n"
+            string2 += pizza.ordersize_set.get().name()+"\n"
             for topping in pizza.ordertopping_set.all():
-                s += "  " + topping.name() + "\n"
-        return s
+                string2 += "  " + topping.name() + "\n"
+        self.assertEqual(Cart.__str__(new_cart), string2)
 
-    def total(self):
-        total = 0
-        for pizza in self.orderpizza_set.all():
-            total += pizza.price()
-            total += pizza.ordersize_set.get().price()
-            for topping in pizza.ordertopping_set.all():
-                total += topping.price()
-        return total
+        #Todo Create Order with Toppings, test Toppings String
 
-    def total_readable(self):
-        price_str = str(self.total() / 100.0)
-        # find the '.' and add a second 0, if necessary
-        for i in range(len(price_str)):
-            if price_str[i] != '.':
-                continue
-            if i >= len(price_str) - 2:
-                price_str += "0"
-                break
-        return price_str
+    def test_cart_total(self):
+        new_cart = create_new_cart()
+        self.assertEqual(Cart.total(new_cart), 0)
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        ordersize = OrderSize.objects.create(size=self.pizza2, pizza=orderpizza)
+        price = self.pizza2.price + (self.pizza5.price if self.pizza5.price > self.pizza1.price else self.pizza1.price)
+        self.assertEqual(Cart.total(new_cart), price)
+        #Todo Create Order with Toppings, test Toppings String
+    def test_cart_total_readable(self):
+        new_cart = create_new_cart()
+        self.assertEqual(Cart.total_readable(new_cart), "0.00")
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        odrersize = OrderSize.objects.create(size=self.pizza2, pizza=orderpizza)
+        self.assertEqual(Cart.total_readable(new_cart), "8.83")
 
-class OrderPizza(models.Model):
-    """A pizza contained in an order."""
-    pizza = models.ForeignKey(MenuPizza, on_delete=models.CASCADE, related_name='pizza')
-    pizza_half = models.ForeignKey(MenuPizza, on_delete=models.CASCADE, related_name='pizza_half', null=True)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    def test_order_pizza_price(self):
+        new_cart = create_new_cart()
+        orderpizza1 = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        self.assertEqual(OrderPizza.price(orderpizza1), self.pizza1.price);
+        orderpizza2 = OrderPizza.objects.create(pizza=self.pizza5, pizza_half=self.pizza1, cart=new_cart)
+        self.assertEqual(OrderPizza.price(orderpizza2), self.pizza1.price);
 
-    def price(self):
-        half_price = 0
-        if self.pizza_half:
-            half_price = self.pizza_half.price
-        return self.pizza.price if self.pizza.price > half_price else self.pizza_half.price
+    def test_order_pizza_readable_price(self):
+        new_cart = create_new_cart()
+        orderpizza1 = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        self.assertEqual(OrderPizza.readable_price(orderpizza1), "7.60");
+        orderpizza2 = OrderPizza.objects.create(pizza=self.pizza5, pizza_half=self.pizza1, cart=new_cart)
+        self.assertEqual(OrderPizza.readable_price(orderpizza2), "7.60");
 
-    def readable_price(self):
-        """The price in the usual e.cc format"""
-        half_price = 0
-        if self.pizza_half:
-            half_price = self.pizza_half.price
-        return self.pizza.readable_price() if self.pizza.price > half_price else self.pizza_half.readable_price()
+    def test_order_pizza_name(self):
+        new_cart = create_new_cart()
+        orderpizza1 = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=None, cart=new_cart)
+        self.assertEqual(OrderPizza.name(orderpizza1), self.pizza1.name);
+        orderpizza2 = OrderPizza.objects.create(pizza=self.pizza5, pizza_half=self.pizza1, cart=new_cart)
+        self.assertEqual(OrderPizza.name(orderpizza2), self.pizza5.name + "/" + self.pizza1.name);
 
-    def name(self):
-        return self.pizza.name if self.pizza_half == None else self.pizza.name + "/" + self.pizza_half.name
+    def test_order_pizza_str(self):
+        new_cart = create_new_cart()
+        orderpizza1 = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=None, cart=new_cart)
+        self.assertEqual(OrderPizza.__str__(orderpizza1), self.pizza1.name);
+        orderpizza2 = OrderPizza.objects.create(pizza=self.pizza5, pizza_half=self.pizza1, cart=new_cart)
+        self.assertEqual(OrderPizza.__str__(orderpizza2), self.pizza5.name + "/" + self.pizza1.name);
 
 
-    def __str__(self):
-        return self.name()
+    def test_order_size_price(self):
+        new_cart = create_new_cart()
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        ordersize = OrderSize.objects.create(size=self.pizza2, pizza=orderpizza)
+        self.assertEqual(OrderSize.price(ordersize), self.pizza2.price)
 
-class OrderSize(models.Model):
-    """A Size contained in an order. Belongs to a concrete OrderPizza"""
-    size = models.ForeignKey(MenuSize, on_delete=models.CASCADE)
-    pizza = models.ForeignKey(OrderPizza, on_delete=models.CASCADE)
+    def test_order_size_readable_price(self):
+        new_cart = create_new_cart()
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        ordersize = OrderSize.objects.create(size=self.pizza2, pizza=orderpizza)
+        self.assertEqual(OrderSize.readable_price(ordersize), "1.23")
 
-    def price(self):
-        return self.size.price
+    def test_order_size_name(self):
+        new_cart = create_new_cart()
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        ordersize = OrderSize.objects.create(size=self.pizza2, pizza=orderpizza)
+        self.assertEqual(OrderSize.name(ordersize), self.pizza2.name) 
 
-    def readable_price(self):
-        """The price in the usual e.cc format"""
-        return self.size.readable_price()
+    def test_order_size_str(self):
+        new_cart = create_new_cart()
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        ordersize = OrderSize.objects.create(size=self.pizza2, pizza=orderpizza)
+        self.assertEqual(OrderSize.__str__(ordersize), self.pizza2.name)     
 
-    def name(self):
-        return self.size.name
+    def test_order_topping_price(self):
+        new_cart = create_new_cart()
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        ordertoppings = OrderTopping.objects.create(topping=self.topping1, pizza=orderpizza)
+        self.assertEqual(OrderTopping.price(ordertoppings), self.topping1.price)
 
-    def __str__(self):
-        return self.name()
+    def test_order_topping_redable_price(self):
+        new_cart = create_new_cart()
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        ordertoppings = OrderTopping.objects.create(topping=self.topping1, pizza=orderpizza)
+        self.assertEqual(OrderTopping.readable_price(ordertoppings), "3.21")
 
-class OrderTopping(models.Model):
-    """A Topping contained in an order. Belongs to a concrete OrderPizza"""
-    topping = models.ForeignKey(MenuTopping, on_delete=models.CASCADE)
-    pizza = models.ForeignKey(OrderPizza, on_delete=models.CASCADE)
+    def test_order_topping_name(self):
+        new_cart = create_new_cart()
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        ordertoppings = OrderTopping.objects.create(topping=self.topping1, pizza=orderpizza)
+        self.assertEqual(OrderTopping.name(ordertoppings), self.topping1.name) 
 
-    def price(self):
-        return self.topping.price
+    def test_order_topping_str(self):
+        new_cart = create_new_cart()
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        ordertoppings = OrderTopping.objects.create(topping=self.topping1, pizza=orderpizza)
+        self.assertEqual(OrderTopping.__str__(ordertoppings), self.topping1.name)
 
-    def readable_price(self):
-        """The price in the usual e.cc format"""
-        return self.topping.readable_price()
+    def test_order_str(self):
+        new_cart1 = create_new_cart()
+        new_cart2 = create_new_cart()
+        new_cart3 = create_new_cart()
+        order_new = Order.objects.create(from_cart=new_cart1, customer_name="Pipi Langstrumpf", customer_address="Rudower Chaussee 25")
+        self.assertEqual(Order.__str__(order_new), "[NEW] %d" % new_cart1.id)
+        order_new = Order.objects.create(state=Order.STATE_BAKING, from_cart=new_cart2, customer_name="Pipi Langstrumpf", customer_address="Rudower Chaussee 25")
+        self.assertEqual(Order.__str__(order_new), "[BAKING] %d" % new_cart2.id)
+        order_new = Order.objects.create(state=Order.STATE_DONE, from_cart=new_cart3, customer_name="Pipi Langstrumpf", customer_address="Rudower Chaussee 25")
+        self.assertEqual(Order.__str__(order_new), "[DONE] %d" % new_cart3.id)    
 
-    def name(self):
-        return self.topping.name
+    def test_order_pizzas(self):
+        new_cart = create_new_cart()
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        ordertoppings = OrderTopping.objects.create(topping=self.topping1, pizza=orderpizza)
+        order_new = Order.objects.create(from_cart=new_cart, customer_name="Pipi Langstrumpf", customer_address="Rudower Chaussee 25")
+        query = Order.pizzas(order_new)
+        self.assertEqual(len(query), 1)
+        self.assertTrue(orderpizza  in query)
 
-    def __str__(self):
-        return self.name()
-
-class Order(models.Model):
-    """A order entered into the system"""
-    STATE_NEW = 0
-    STATE_BAKING = 1
-    STATE_DONE = 2
-    
-    state = models.SmallIntegerField(default=STATE_NEW)
-    from_cart = models.OneToOneField(Cart, on_delete=models.CASCADE, primary_key=False)
-    # Since we dont do customer registration,
-    # simpy putting the name and address in the Order
-    # is probably fine
-    customer_name = models.CharField(max_length=255)
-    customer_address = models.CharField(max_length=255)
-    
-    def __str__(self):
-        state_str = ""
-        if self.state == Order.STATE_NEW:
-            state_str = "[NEW] "
-        elif self.state == Order.STATE_BAKING:
-            state_str = "[BAKING] "
-        else:
-            state_str = "[DONE] "
-        return state_str + " %d" % self.from_cart.id
-
-    def pizzas(self):
-        return self.from_cart.orderpizza_set.all()
-   
-    def total(self):
-        return self.from_cart.total_readable()
-
-'''
-
+    def test_order_total(self):
+        new_cart = create_new_cart()
+        orderpizza = OrderPizza.objects.create(pizza=self.pizza1, pizza_half=self.pizza5, cart=new_cart)
+        ordersize = OrderSize.objects.create(size=self.pizza2, pizza=orderpizza)
+        ordertoppings = OrderTopping.objects.create(topping=self.topping1, pizza=orderpizza)
+        order_new = Order.objects.create(from_cart=new_cart, customer_name="Pipi Langstrumpf", customer_address="Rudower Chaussee 25")
+        self.assertEqual(Order.total(order_new), "12.04")
 
 class Test_util_py(TestCase):
     """WhiteBoxTesting for util"""

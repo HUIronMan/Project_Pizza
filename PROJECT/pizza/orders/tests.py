@@ -4,6 +4,7 @@ from django.test import TestCase, Client, RequestFactory
 from django.utils import timezone
 from django.contrib.sessions.models import Session
 from django.conf import settings
+from django.http.response import Http404
 import importlib
 
 from .models import *
@@ -138,9 +139,16 @@ class Test_views_py(TestCase):
         self.assertNotEqual(returnVal, None)
 
 
-#TODO
     def test_confirm_order(self):
-        return FALSE
+        request = self.factory.get('/')
+        engine = importlib.import_module(settings.SESSION_ENGINE)
+        request.session = engine.SessionStore()
+        request.session.save()
+        cart = open_or_create_cart(request)
+        self.assertNotEqual(cart, None)
+
+        response = confirm_order(request)
+        self.assertEqual(response.status_code, 200)
 
     def test_place_order(self):
         request = self.factory.get('/')
@@ -150,11 +158,14 @@ class Test_views_py(TestCase):
         response = clear_cart(request)
         self.assertEqual(response.status_code, 302)
 
-#TODO
     def test_set_order_state(self):
-        return FALSE
-
-
+        request = self.factory.get('/')
+        try:
+            response = set_order_state(request, -42, 42)
+        except Http404:
+            self.assertTrue(True)
+            return
+        self.assertTrue(False)
 
 class Test_models_py(TestCase):
     """WhiteBoxTesting for models"""

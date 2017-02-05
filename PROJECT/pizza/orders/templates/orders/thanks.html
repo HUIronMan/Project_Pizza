@@ -1,4 +1,5 @@
 <h1>Thank you for your order<h1>
+<a href="{% url 'orders:clear_cart' %}">Back to menu</a>
 
 <script>
 setTimeout(function() { window.location.replace('{% url 'orders:clear_cart' %}') }, 5000)

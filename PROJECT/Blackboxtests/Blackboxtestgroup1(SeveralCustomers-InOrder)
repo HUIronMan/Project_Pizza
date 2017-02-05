@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Test Suite</title>
+</head>
+<body>
+<table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
+<tr><td><b>Test Suite</b></td></tr>
+<tr><td><a href="Blackboxtest1-(MaxTopping)">Blackboxtest1-(MaxTopping)</a></td></tr>
+<tr><td><a href="Blackboxtest2-(SamePizza)">Blackboxtest2-(SamePizza)</a></td></tr>
+<tr><td><a href="Blackboxtest3-(MaxToppingXL)">Blackboxtest3-(MaxToppingXL)</a></td></tr>
+<tr><td><a href="Blackboxtest4-(SplitPrice)">Blackboxtest4-(SplitPrice)</a></td></tr>
+<tr><td><a href="Blackboxtest5-(NoSplit)">Blackboxtest5-(NoSplit)</a></td></tr>
+<tr><td><a href="Blackboxtest6-(AllSizes)">Blackboxtest6-(AllSizes)</a></td></tr>
+<tr><td><a href="Blackboxtest7-(ClearCart)">Blackboxtest7-(ClearCart)</a></td></tr>
+<tr><td><a href="Blackboxtest8-(ClearCartAndOrder)">Blackboxtest8-(ClearCartAndOrder)</a></td></tr>
+<tr><td><a href="Blackboxtest9-(GoBack)">Blackboxtest9-(GoBack)</a></td></tr>
+<tr><td><a href="Blackboxtest10-(SplitWithSamePizza)">Blackboxtest10-(SplitWithSamePizza)</a></td></tr>
+<tr><td><a href="Blackboxtest11-(ChangeSplit)">Blackboxtest11-(ChangeSplit)</a></td></tr>
+<tr><td><a href="Blackboxtest12-(ChangeToppings)">Blackboxtest12-(ChangeToppings)</a></td></tr>
+<tr><td><a href="Blackboxtest13-(RemoveToppings)">Blackboxtest13-(RemoveToppings)</a></td></tr>
+<tr><td><a href="Blackboxtest14-(ChangeSplitAfterToppings)">Blackboxtest14-(ChangeSplitAfterToppings)</a></td></tr>
+</tbody></table>
+</body>
+</html>

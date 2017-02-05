@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://127.0.0.1:8000/" />
-<title>Whiteboxtest3</title>
+<title>Blackboxtest11-(ChangeSplit)</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Whiteboxtest3</td></tr>
+<tr><td rowspan="1" colspan="3">Blackboxtest11-(ChangeSplit)</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -18,37 +18,22 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Salami</td>
+	<td>link=Pizza Calzone</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=XL</td>
+	<td>link=L</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=pizza3</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
 	<td>id=pizza2</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>id=topping2</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>id=topping3</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>id=topping4</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>id=topping5</td>
 	<td></td>
 </tr>
 <tr>
@@ -69,12 +54,12 @@
 <tr>
 	<td>type</td>
 	<td>id=name</td>
-	<td>Name</td>
+	<td>Ronja</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=addr</td>
-	<td>Adresse</td>
+	<td>Wohnung</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>

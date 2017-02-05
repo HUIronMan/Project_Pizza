@@ -8,11 +8,14 @@
 <body>
 <table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
 <tr><td><b>Test Suite</b></td></tr>
+<tr><td><a href="Blackboxtest6-(AllSizes)">Blackboxtest6-(AllSizes)</a></td></tr>
+<tr><td><a href="Blackboxtest6-(AllSizes)">Blackboxtest6-(AllSizes)</a></td></tr>
 <tr><td><a href="Blackboxtest5-(NoSplit)">Blackboxtest5-(NoSplit)</a></td></tr>
-<tr><td><a href="Blackboxtest2-(SamePizza)">Blackboxtest2-(SamePizza)</a></td></tr>
+<tr><td><a href="Blackboxtest12-(ChangeToppings)">Blackboxtest12-(ChangeToppings)</a></td></tr>
+<tr><td><a href="Blackboxtest9-(GoBack)">Blackboxtest9-(GoBack)</a></td></tr>
+<tr><td><a href="Blackboxtest5-(NoSplit)">Blackboxtest5-(NoSplit)</a></td></tr>
 <tr><td><a href="Blackboxtest4-(SplitPrice)">Blackboxtest4-(SplitPrice)</a></td></tr>
-<tr><td><a href="Blackboxtest1-(MaxTopping)">Blackboxtest1-(MaxTopping)</a></td></tr>
-<tr><td><a href="Blackboxtest3-(MaxToppingXL)">Blackboxtest3-(MaxToppingXL)</a></td></tr>
+<tr><td><a href="Blackboxtest6-(AllSizes)">Blackboxtest6-(AllSizes)</a></td></tr>
 </tbody></table>
 </body>
 </html>
